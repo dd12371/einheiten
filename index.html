@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Präzisions-Metrologie: Metrisch ⇄ Angloamerikanisch (UK / US) ⇄ Chinesisch</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-sub: #182234;
+      --border: #233149;
+      --border-focus: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-sub: #0284c7;
+      --metric-tag: #10b981;
+      --uk-tag: #818cf8;
+      --us-tag: #f59e0b;
+      --cn-tag: #f87171;
+      --font-mono: "JetBrains Mono", "SF Mono", Consolas, Menlo, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    /* Category Nav */
+    .cat-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: thin;
+    }
+
+    .cat-btn {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .cat-btn:hover {
+      color: var(--text);
+      border-color: var(--border-focus);
+    }
+
+    .cat-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* View Switcher */
+    .view-mode-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .mode-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .mode-tab:hover {
+      color: var(--text);
+    }
+
+    .mode-tab.active {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Panels & Cards */
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .cat-intro-box {
+      background: rgba(24, 34, 52, 0.6);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    input[type="number"], input[type="text"], select {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      padding: 10px 14px;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    select {
+      font-family: var(--font-sans);
+      cursor: pointer;
+    }
+
+    /* Hero Result Display */
+    .hero-result {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(99, 102, 241, 0.04));
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 10px;
+      padding: 18px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-val {
+      font-family: var(--font-mono);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .hero-unit {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-left: 8px;
+      font-weight: 500;
+    }
+
+    /* Subcategories Grid */
+    .subcats-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .subcat-card {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .subcat-header {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .subcat-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subcat-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Data Tables */
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.unit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      text-align: left;
+    }
+
+    table.unit-table th {
+      background: rgba(11, 15, 25, 0.5);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.unit-table td {
+      padding: 7px 12px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+
+    table.unit-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.unit-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .col-orig {
+      font-weight: 600;
+      color: #f1f5f9;
+      width: 32%;
+    }
+
+    .col-de {
+      color: #cbd5e1;
+      width: 28%;
+    }
+
+    .col-abk {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-size: 0.8rem;
+      width: 15%;
+    }
+
+    .col-val {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #fff;
+      text-align: right;
+      width: 25%;
+    }
+
+    /* Compound Mode */
+    .compound-card {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .compound-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-top: 14px;
+    }
+
+    .compound-input-slot {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 95px;
+      flex: 1;
+    }
+
+    .compound-input-slot input {
+      font-size: 1.05rem;
+      text-align: center;
+    }
+
+    .compound-result-string {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--accent);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 12px;
+      word-break: break-all;
+    }
+
+    /* Temperature Matrix */
+    .temp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .temp-card {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .temp-card label {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .temp-card input {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div>
+      <span class="badge">Präzisions-Metrologie & Historische Konversion</span>
+      <h1>Metrisch ⇄ Angloamerikanisch (UK / US) ⇄ Chinesisch</h1>
+      <p class="subtitle">Feingliedrige Systemtrennung · Logische Kaskadenumrechnung · Sortierung von klein nach groß</p>
+    </div>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <label for="precisionSelect">Präzision:</label>
+      <select id="precisionSelect" style="width: auto; padding: 6px 10px;">
+        <option value="4">4 Stellen</option>
+        <option value="6" selected>6 Stellen</option>
+        <option value="8">8 Stellen</option>
+        <option value="12">12 Stellen</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Category Nav -->
+  <nav class="cat-nav" id="catNav"></nav>
+
+  <!-- View Mode Switch -->
+  <div class="view-mode-tabs">
+    <button class="mode-tab active" id="tabStandard" onclick="switchView('standard')">Einzel- & Differenzierte Matrix</button>
+    <button class="mode-tab" id="tabCompound" onclick="switchView('compound')">Hierarchische Kaskaden (Kombiniert)</button>
+    <button class="mode-tab" id="tabSpecial" onclick="switchView('special')">8 Temperaturskalen & Spezialmodule</button>
+  </div>
+
+  <!-- VIEW 1: STANDARD WITH STRUCTURED SUBCATEGORIES -->
+  <div id="viewStandard">
+    <div class="panel">
+      <!-- General Category Explanation Box -->
+      <div class="cat-intro-box" id="categoryIntroText"></div>
+
+      <!-- Quick Interactive Conversion -->
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="srcValue">Eingabewert</label>
+          <input type="number" id="srcValue" value="1" step="any">
+        </div>
+        <div class="input-group">
+          <label for="srcUnit">Ausgangseinheit (Beliebig)</label>
+          <select id="srcUnit"></select>
+        </div>
+        <div class="input-group">
+          <label for="targetUnit">Fokussierte Zieleinheit</label>
+          <select id="targetUnit"></select>
+        </div>
+      </div>
+
+      <div class="hero-result">
+        <div>
+          <span style="font-size:0.78rem; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:4px;">Ergebnis der Zielumrechnung</span>
+          <span class="hero-val" id="heroValResult">0.00</span>
+          <span class="hero-unit" id="heroUnitResult"></span>
+        </div>
+        <button class="copy-btn" onclick="copyHeroResult()">Wert kopieren</button>
+      </div>
+
+      <!-- Sub-categories: Sorted klein nach groß, with table layout -->
+      <div class="subcats-container" id="subcategoriesDisplay"></div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: COMPOUND (HIERARCHICAL) CONVERTER -->
+  <div id="viewCompound" class="hidden">
+    <div class="panel">
+      <h2 style="font-size:1.2rem; margin-bottom:6px;">Hierarchische Kaskadenumrechnung (Logische Verbundsysteme)</h2>
+      <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:20px;">
+        Zerlegt metrische Größen in stufenreine historische Einheitenhierarchien ohne unerlaubte Mischung (kein Vermengen von Troy- mit Handelsgewicht oder Schüttgütern mit Wein).
+      </p>
+
+      <div class="input-group" style="margin-bottom:24px; max-width:540px;">
+        <label for="compoundSystemSelect">Logisches Verbundsystem auswählen:</label>
+        <select id="compoundSystemSelect" onchange="renderCompoundSystem()"></select>
+      </div>
+
+      <!-- Metric to Compound -->
+      <div class="compound-card">
+        <h3 style="font-size:0.95rem; margin-bottom:8px;">Metrischer Ausgangswert ➔ Zusammensetzung</h3>
+        <div style="display:flex; gap:12px; max-width:380px;">
+          <input type="number" id="metricCompoundInput" value="10" step="any" oninput="convertMetricToCompound()">
+          <span id="metricCompoundUnitLabel" style="align-self:center; font-family:var(--font-mono); color:var(--accent); font-weight:600;"></span>
+        </div>
+        <div class="compound-result-string" id="compoundOutputDisplay">—</div>
+      </div>
+
+      <!-- Compound to Metric -->
+      <div class="compound-card">
+        <h3 style="font-size:0.95rem; margin-bottom:6px;">Zusammengesetzte Werte ➔ Metrisches Äquivalent</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Trage die ganzzahligen oder fraktionalen Werte der jeweiligen Kaskadenstufe ein:</p>
+        <div class="compound-row" id="compoundInputSlots"></div>
+        <div style="margin-top:16px;">
+          <span style="font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">Metrisches Ergebnis:</span>
+          <div class="hero-val" style="font-size:1.4rem; color:var(--metric-tag);" id="compoundReverseResultDisplay">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 3: SPECIAL TEMPERATURE, FUEL & DYNASTIES -->
+  <div id="viewSpecial" class="hidden">
+    <!-- Temperature Studio -->
+    <div class="panel">
+      <h2 style="font-size:1.2rem; margin-bottom:6px;">Vollständiges 8-Skalen-Temperaturstudio</h2>
+      <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:16px;">
+        Wechselseitige Echtzeitumrechnung zwischen Celsius, Newton, Rømer, Fahrenheit, Réaumur, Delisle, Kelvin und Rankine. Jedes Feld kann direkt editiert werden.
+      </p>
+      <div class="temp-grid" id="temperatureGrid"></div>
+    </div>
+
+    <!-- Fuel Efficiency -->
+    <div class="panel">
+      <h2 style="font-size:1.2rem; margin-bottom:6px;">Reziproker Kraftstoffverbrauch</h2>
+      <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:16px;">
+        Exakte Berechnung: Liter/100 km verhält sich reziprok zu Miles per Gallon. 
+        Formeln: $235{,}2145833 \div (l/100\text{km}) = \text{mpg (US)}$ | $282{,}4809363 \div (l/100\text{km}) = \text{mpg (UK)}$.
+      </p>
+      <div class="input-grid">
+        <div class="input-group">
+          <label>Liter / 100 km (l/100km)</label>
+          <input type="number" id="fuel_l100" value="7.5" step="any" oninput="calcFuel('l100')">
+        </div>
+        <div class="input-group">
+          <label>Miles per Gallon (US) (mpg US)</label>
+          <input type="number" id="fuel_mpgus" step="any" oninput="calcFuel('mpgus')">
+        </div>
+        <div class="input-group">
+          <label>Miles per Gallon (UK) (mpg UK)</label>
+          <input type="number" id="fuel_mpguk" step="any" oninput="calcFuel('mpguk')">
+        </div>
+        <div class="input-group">
+          <label>Kilometer pro Liter (km/l)</label>
+          <input type="number" id="fuel_kml" step="any" oninput="calcFuel('kml')">
+        </div>
+        <div class="input-group">
+          <label>Meilen pro Liter (mi/l)</label>
+          <input type="number" id="fuel_mil" step="any" oninput="calcFuel('mil')">
+        </div>
+      </div>
+    </div>
+
+    <!-- Ancient Dynasties Reference -->
+    <div class="panel">
+      <h2 style="font-size:1.2rem; margin-bottom:6px;">Chinesische Maße durch die klassischen Dynastien</h2>
+      <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:14px;">
+        Historische Entwicklung von Chǐ (Fuß), Bù (Schritt = 5 Chǐ) und Jīn (Catty/Pfund) von der Shang- bis zur Qing-Dynastie.
+      </p>
+      <div class="table-wrap">
+        <table class="unit-table">
+          <thead>
+            <tr>
+              <th>Dynastie / Epoche</th>
+              <th>Chǐ (尺) in Meter</th>
+              <th>Bù (步 = 5 Chǐ)</th>
+              <th>Lǐ (里 = 300 Bù)</th>
+              <th>Jīn (斤) in Gramm</th>
+              <th>Liǎng (兩 = 1/16 Jīn)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Shang (商)</strong></td><td>0.1690 m</td><td>0.8450 m</td><td>253.50 m</td><td>250.0 g</td><td>15.625 g</td></tr>
+            <tr><td><strong>Westliche Zhou (西周)</strong></td><td>0.1990 m</td><td>0.9950 m</td><td>298.50 m</td><td>250.0 g</td><td>15.625 g</td></tr>
+            <tr><td><strong>Östliche Zhou (東周)</strong></td><td>0.2200 m</td><td>1.1000 m</td><td>330.00 m</td><td>250.0 g</td><td>15.625 g</td></tr>
+            <tr><td><strong>Qin (秦)</strong></td><td>0.2260 m</td><td>1.1300 m</td><td>339.00 m</td><td>253.0 g</td><td>15.8125 g</td></tr>
+            <tr><td><strong>Han (漢)</strong></td><td>0.2310 m</td><td>1.1550 m</td><td>346.50 m</td><td>248.0 g</td><td>15.500 g</td></tr>
+            <tr><td><strong>Wei – Sui (魏晉隋)</strong></td><td>0.2550 m</td><td>1.2750 m</td><td>382.50 m</td><td>220.0 g</td><td>13.750 g</td></tr>
+            <tr><td><strong>Tang (唐)</strong></td><td>0.2955 m</td><td>1.4775 m</td><td>443.25 m</td><td>661.0 g</td><td>41.3125 g</td></tr>
+            <tr><td><strong>Song (宋)</strong></td><td>0.3080 m</td><td>1.5400 m</td><td>462.00 m</td><td>633.0 g</td><td>39.5625 g</td></tr>
+            <tr><td><strong>Ming (明)</strong></td><td>0.3110 m</td><td>1.5550 m</td><td>466.50 m</td><td>590.0 g</td><td>36.875 g</td></tr>
+            <tr><td><strong>Qing (清)</strong></td><td>0.3200 m</td><td>1.6000 m</td><td>480.00 m</td><td>596.816 g</td><td>37.301 g</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   METROLOGICAL MASTER REPOSITORY (COMPLETELY STRUCTURED & SORTED)
+   All sub-categories sorted strictly from small to large (ascending factor).
+   ========================================================================== */
+
+const METROLOGY_DATA = {
+  length: {
+    title: "Längenmaße (Length)",
+    baseUnit: "m",
+    intro: "Die angloamerikanischen Längenmaße wurden 1824 im Vereinigten Königreich vereinheitlicht und 1959 international über das metrische System definiert (1 Yard = 0,9144 m; 1 Foot = 0,3048 m; 1 Inch = 25,4 mm). In den USA galt für die Flurvermessung bis Ende 2022 der geringfügig abweichende U.S. Survey Foot (1200/3937 m). Das chinesische System wurde 1915 kodifiziert (Yingzao-Standard, 1 Chǐ = 0,32 m) und 1930 auf das Shìzhì-System (1 Chǐ = 1/3 m) reformiert.",
+    subcategories: [
+      {
+        id: "len_metric",
+        name: "Metrische Längenmaße (SI)",
+        desc: "Internationales Einheitensystem (SI), basierend auf dem Urmeter bzw. der Lichtgeschwindigkeit.",
+        units: [
+          { orig: "micrometre", de: "Mikrometer", abk: "μm", factor: 1e-6 },
+          { orig: "millimetre", de: "Millimeter", abk: "mm", factor: 0.001 },
+          { orig: "centimetre", de: "Zentimeter", abk: "cm", factor: 0.01 },
+          { orig: "decimetre", de: "Dezimeter", abk: "dm", factor: 0.1 },
+          { orig: "metre", de: "Meter", abk: "m", factor: 1.0 },
+          { orig: "kilometre", de: "Kilometer", abk: "km", factor: 1000.0 }
+        ]
+      },
+      {
+        id: "len_common",
+        name: "Allgemeine Längenmaße (Angloamerikanisch)",
+        desc: "Seit dem International Yard and Pound Agreement von 1959 zwischen UK und den USA vollkommen identisch.",
+        units: [
+          { orig: "inch", de: "Zoll", abk: "in (″)", factor: 0.0254 },
+          { orig: "foot", de: "Fuß", abk: "ft (′)", factor: 0.3048 },
+          { orig: "yard", de: "Yard / Schritt", abk: "yd", factor: 0.9144 },
+          { orig: "mile", de: "Landmeile", abk: "mi", factor: 1609.344 }
+        ]
+      },
+      {
+        id: "len_survey",
+        name: "Landvermessungsmaße (Angloamerikanisch)",
+        desc: "Gunter's Measurement (17. Jh.) zur Vereinfachung der Flächenberechnung in Acres.",
+        units: [
+          { orig: "link", de: "Kettenglied", abk: "li.", factor: 0.201168 },
+          { orig: "survey foot (US)", de: "US Vermessungsfuß (bis 2022)", abk: "ft (US surv.)", factor: 1200 / 3937 },
+          { orig: "rod / pole / perch", de: "Rute / Perch", abk: "rd.", factor: 5.0292 },
+          { orig: "chain", de: "Kette (Gunter's)", abk: "ch.", factor: 20.1168 },
+          { orig: "furlong", de: "Furchenlänge / Achtelmeile", abk: "fur.", factor: 201.168 }
+        ]
+      },
+      {
+        id: "len_nautical",
+        name: "Nautische Maße (Seefahrt)",
+        desc: "Klassische und moderne Seemaße für Tiefe und Distanzen.",
+        units: [
+          { orig: "fathom", de: "Faden / Klafter (Lotung)", abk: "fm.", factor: 1.8288 },
+          { orig: "shackle (UK) / shot (US)", de: "Schäkel / Shot (15 fm)", abk: "shackle", factor: 27.432 },
+          { orig: "cable (UK / 100 fm)", de: "Kabellänge (UK, 600 ft)", abk: "cbl. (UK)", factor: 182.88 },
+          { orig: "cable (Internat.)", de: "Kabellänge (1/10 Seemeile)", abk: "cbl. (int)", factor: 185.2 },
+          { orig: "cable (US Navy / 120 fm)", de: "Kabellänge (US Navy, 720 ft)", abk: "cbl. (USN)", factor: 219.456 },
+          { orig: "nautical mile (Internat.)", de: "Internationale Seemeile", abk: "NM", factor: 1852.0 },
+          { orig: "sea mile (UK Admiralty)", de: "Admiralty-Seemeile (bis 1954)", abk: "sm. (adm)", factor: 1853.184 },
+          { orig: "nautical league", de: "Seeliga (3 Seemeilen)", abk: "nl.", factor: 5559.552 }
+        ]
+      },
+      {
+        id: "len_special",
+        name: "Sonstige seltene, alte und spezielle Maße",
+        desc: "Traditionelle Handwerks-, Textil-, Typografie- und Körpermaße des englischen Sprachraums.",
+        units: [
+          { orig: "gauge", de: "Gauge (Foliendicke)", abk: "gauge", factor: 0.000000254 },
+          { orig: "twip", de: "Twip (Typografie, 1/20 pt)", abk: "twp.", factor: 0.0254 / 1440 },
+          { orig: "mil (US) / thou (UK)", de: "Mil / Thou (1/1000 in)", abk: "mil / thou", factor: 0.0000254 },
+          { orig: "mickey", de: "Mickey (Mausauflösung)", abk: "mickey", factor: 0.000127 },
+          { orig: "point", de: "DTP-Punkt (1/72 in)", abk: "pt.", factor: 0.0254 / 72 },
+          { orig: "shoe ounce", de: "Schuh-Unze (feines Leder)", abk: "shoe oz", factor: 0.000396875 },
+          { orig: "shoe iron", de: "Schuh-Eisen (dickes Leder)", abk: "shoe iron", factor: 0.0254 / 48 },
+          { orig: "line", de: "Linie (Handwerk, 1/12 in)", abk: "ln.", factor: 0.0254 / 12 },
+          { orig: "pica", de: "Pica (1/6 in)", factor: 0.0254 / 6, abk: "pc." },
+          { orig: "barleycorn", de: "Gerstenkorn (1/3 in)", abk: "barleycorn", factor: 0.0254 / 3 },
+          { orig: "digit / nailfoot", de: "Finger (3/4 in)", abk: "digit", factor: 0.01905 },
+          { orig: "finger (breadth)", de: "Fingerbreite (7/8 in)", abk: "finger", factor: 0.022225 },
+          { orig: "stick", de: "Stick (2 in)", abk: "stick", factor: 0.0508 },
+          { orig: "nailyard", de: "Nagel (2 1/4 in = 3 digits)", abk: "nailyard", factor: 0.05715 },
+          { orig: "palm", de: "Handfläche (3 in)", abk: "palm", factor: 0.0762 },
+          { orig: "hand", de: "Handbreit (Pferdegröße, 4 in)", abk: "hand", factor: 0.1016 },
+          { orig: "shaftment", de: "Kleine Spanne (6 in)", abk: "shaftment", factor: 0.1524 },
+          { orig: "span", de: "Große Spanne (9 in = 3 palms)", abk: "span", factor: 0.2286 },
+          { orig: "quarter", de: "Viertelyard (9 in)", abk: "quarter", factor: 0.2286 },
+          { orig: "cubit", de: "Elle (18 in = 1/2 yd)", abk: "cubit", factor: 0.4572 },
+          { orig: "pace (US) / step (UK)", de: "Schritt (30 in)", abk: "pace / step", factor: 0.762 },
+          { orig: "ell", de: "Elle (Textilmaß, 45 in)", abk: "ell", factor: 1.143 },
+          { orig: "grade / geometric pace", de: "Doppelschritt (5 ft)", abk: "grade", factor: 1.524 },
+          { orig: "rope", de: "Seil (20 ft)", abk: "rope", factor: 6.096 },
+          { orig: "skein", de: "Strang (Textil, 120 yd)", abk: "skein", factor: 109.728 },
+          { orig: "league", de: "Wegstunde / Landliga (3 mi)", abk: "lea.", factor: 4828.032 },
+          { orig: "spindle", de: "Spindel (Textil, 14400 yd)", abk: "spindle", factor: 13167.36 }
+        ]
+      },
+      {
+        id: "len_cn1930",
+        name: "Chinesische Längenmaße (Shìzhì / 市制 1930)",
+        desc: "Im Jahr 1930 eingeführtes Marktsystem, das traditionelle Einheiten exakt auf rationale Dezimalbrüche des Meters normierte (1 Chǐ = 1/3 m).",
+        units: [
+          { orig: "háo (毫)", de: "Háo (1/30 mm)", abk: "háo", factor: 1 / 30000 },
+          { orig: "lí (釐/厘)", de: "Lí (1/3 mm)", abk: "lí", factor: 1 / 3000 },
+          { orig: "fēn (市分)", de: "Fēn (10/3 mm)", abk: "fēn", factor: 1 / 300 },
+          { orig: "cùn (市寸)", de: "Chinesischer Zoll (10/3 cm)", abk: "cùn", factor: 1 / 30 },
+          { orig: "chǐ (市尺)", de: "Chinesischer Fuß (33 1/3 cm)", abk: "chǐ", factor: 1 / 3 },
+          { orig: "zhàng (市丈)", de: "Zhàng (10 Chǐ = 3 1/3 m)", abk: "zhàng", factor: 10 / 3 },
+          { orig: "yǐn (引)", de: "Yǐn (100 Chǐ = 33 1/3 m)", abk: "yǐn", factor: 100 / 3 },
+          { orig: "lǐ (市里)", de: "Chinesische Meile (500 m)", abk: "lǐ", factor: 500.0 }
+        ]
+      },
+      {
+        id: "len_cn1915",
+        name: "Chinesische Längenmaße (Yingzao Chi / 營造尺 1915)",
+        desc: "Beiyang-Regierung von 1915, basierend auf der traditionellen Qing-Dynastie-Baumeister-Elle (1 Chǐ = 0,32 m).",
+        units: [
+          { orig: "háo (毫, 1915)", de: "Háo (1915)", abk: "háo (15)", factor: 0.000032 },
+          { orig: "lí (釐, 1915)", de: "Lí (1915)", abk: "lí (15)", factor: 0.00032 },
+          { orig: "fēn (分, 1915)", de: "Fēn (1915)", abk: "fēn (15)", factor: 0.0032 },
+          { orig: "cùn (寸, 1915)", de: "Cùn (1915)", abk: "cùn (15)", factor: 0.032 },
+          { orig: "chǐ (營造尺, 1915)", de: "Baumeister-Chǐ", abk: "chǐ (15)", factor: 0.32 },
+          { orig: "bù (步, 1915)", de: "Schritt (5 Chǐ)", abk: "bù (15)", factor: 1.6 },
+          { orig: "zhàng (丈, 1915)", de: "Zhàng (10 Chǐ)", abk: "zhàng (15)", factor: 3.2 },
+          { orig: "yǐn (引, 1915)", de: "Yǐn (100 Chǐ)", abk: "yǐn (15)", factor: 32.0 },
+          { orig: "lǐ (里, 1915)", de: "Traditionelle Lǐ (1800 Chǐ)", abk: "lǐ (15)", factor: 576.0 }
+        ]
+      },
+      {
+        id: "len_cngong",
+        name: "Metrisch adaptierte chinesische Längenmaße (Gōng / 公制)",
+        desc: "Metrische Einheiten mit vorangestelltem 'Gōng' (öffentlich/metrisch) bzw. für Kleinmaße aus der Feinwerktechnik.",
+        units: [
+          { orig: "hū (忽 / 微米)", de: "Mikrometer", abk: "hū", factor: 1e-6 },
+          { orig: "sī (絲 / 忽米)", de: "Zehntelmillimeter (10 μm)", abk: "sī", factor: 1e-5 },
+          { orig: "háo (毫 / 絲米)", de: "Hundertstelmillimeter (100 μm)", abk: "háo (gōng)", factor: 1e-4 },
+          { orig: "lí (釐 / 毫米)", de: "Millimeter", abk: "lí (gōng)", factor: 0.001 },
+          { orig: "gōngfēn (公分 / 厘米)", de: "Zentimeter", abk: "gōngfēn", factor: 0.01 },
+          { orig: "gōngcùn (公寸 / 分米)", de: "Dezimeter", abk: "gōngcùn", factor: 0.1 },
+          { orig: "gōngchǐ (公尺 / 米)", de: "Meter", abk: "gōngchǐ", factor: 1.0 },
+          { orig: "gōngzhàng (公丈 / 十米)", de: "Zehnmeter", abk: "gōngzhàng", factor: 10.0 },
+          { orig: "gōngyǐn (公引 / 百米)", de: "Hektometer", abk: "gōngyǐn", factor: 100.0 },
+          { orig: "gōnglǐ (公里 / 千米)", de: "Kilometer", abk: "gōnglǐ", factor: 1000.0 }
+        ]
+      },
+      {
+        id: "len_hk",
+        name: "Hongkong und Macau Längenmaße",
+        desc: "Auf der traditionellen kantonesischen Elle basierendes System (1 Cek = 0,371475 m).",
+        units: [
+          { orig: "fan (分, HK)", de: "Fan / Condorim", abk: "fan", factor: 0.00371475 },
+          { orig: "cyun (寸, HK)", de: "Hongkong-Zoll (Ponto)", abk: "cyun", factor: 0.0371475 },
+          { orig: "cek (尺, HK)", de: "Hongkong-Fuß (Côvado)", abk: "cek", factor: 0.371475 }
+        ]
+      }
+    ]
+  },
+
+  area: {
+    title: "Flächenmaße (Area)",
+    baseUnit: "m²",
+    intro: "Allgemeine Flächen leiten sich aus dem Quadrat der Längeneinheiten ab. Bei Landflächen bildet das Rechteck aus 1 Chain und 1 Furlong genau 1 Acre (43.560 sq ft). In den USA und Kanada wurden Siedlungsgebiete im orthogonalen Vermessungsraster aufgeteilt (Township = 36 Sections à 640 Acres). Im chinesischen Raum ist das Mǔ (市畝 = 6000 Quadrat-Chǐ = 2000/3 m² ≈ 666,67 m²) die historische Standardlandparzelle.",
+    subcategories: [
+      {
+        id: "area_metric",
+        name: "Metrische Flächenmaße (SI)",
+        desc: "Quadratische Potenzmaße des Meters sowie das landwirtschaftliche Ar und Hektar.",
+        units: [
+          { orig: "square millimetre", de: "Quadratmillimeter", abk: "mm²", factor: 1e-6 },
+          { orig: "square centimetre", de: "Quadratzentimeter", abk: "cm²", factor: 1e-4 },
+          { orig: "square decimetre", de: "Quadratdezimeter", abk: "dm²", factor: 0.01 },
+          { orig: "square metre", de: "Quadratmeter", abk: "m²", factor: 1.0 },
+          { orig: "are", de: "Ar", abk: "a", factor: 100.0 },
+          { orig: "hectare", de: "Hektar", abk: "ha", factor: 10000.0 },
+          { orig: "square kilometre", de: "Quadratkilometer", abk: "km²", factor: 1e6 }
+        ]
+      },
+      {
+        id: "area_small",
+        name: "Flächenmaße unterhalb eines Square Inch",
+        desc: "Spezialmaße der Elektrotechnik für Leiterquerschnitte (Kreisflächen).",
+        units: [
+          { orig: "circular mil (US) / thou (UK)", de: "Circular Mil (π/4 mil²)", abk: "circ.mil", factor: 5.06707479e-10 },
+          { orig: "square mil (US) / thou (UK)", de: "Square Mil (1 mil²)", abk: "sq.mil", factor: 6.4516e-10 },
+          { orig: "kcmil / MCM", de: "1000 Circular Mils", abk: "kcmil", factor: 5.06707479e-7 },
+          { orig: "circular inch", de: "Kreiszoll (π/4 in²)", abk: "circ.in.", factor: 0.000506707479 }
+        ]
+      },
+      {
+        id: "area_common",
+        name: "Allgemeine Flächenmaße (Angloamerikanisch)",
+        desc: "Quadrierte Basiseinheiten, international einheitlich seit 1959.",
+        units: [
+          { orig: "square inch", de: "Quadratzoll", abk: "sq.in. (in²)", factor: 0.00064516 },
+          { orig: "square foot", de: "Quadratfuß", abk: "sq.ft. (ft²)", factor: 0.09290304 },
+          { orig: "square yard", de: "Quadratyard", abk: "sq.yd. (yd²)", factor: 0.83612736 },
+          { orig: "square mile", de: "Quadratmeile", abk: "sq.mi. (mi²)", factor: 2589988.110336 }
+        ]
+      },
+      {
+        id: "area_land",
+        name: "Flächenmaße für Land- oder Grundstücksgrößen",
+        desc: "Flurmaße des angloamerikanischen Vermessungswesens und Siedlungsrasters.",
+        units: [
+          { orig: "square rod / pole / perch", de: "Quadratrute (272 1/4 sq ft)", abk: "sq.rd.", factor: 25.29285264 },
+          { orig: "square chain", de: "Quadratkette (16 sq rd)", abk: "sq.ch.", factor: 404.68564224 },
+          { orig: "rood", de: "Viertelmorgen (1/4 acre)", abk: "ro.", factor: 1011.7141056 },
+          { orig: "acre", de: "Morgen / Acre (43560 sq ft)", abk: "ac.", factor: 4046.8564224 },
+          { orig: "quarter-quarter section (US)", de: "Viertel-Viertel-Sektion (40 ac)", abk: "1/16 sec.", factor: 161874.256896 },
+          { orig: "quarter section (US)", de: "Viertelsektion (160 ac)", abk: "1/4 sec.", factor: 647497.027584 },
+          { orig: "section (US)", de: "Sektion (1 sq mi = 640 ac)", abk: "sec.", factor: 2589988.110336 },
+          { orig: "township (US)", de: "Survey Township (36 Sections)", abk: "twp.", factor: 93239571.972096 }
+        ]
+      },
+      {
+        id: "area_special",
+        name: "Spezielle Flächenmaße & Historische Hofgüter",
+        desc: "Traditionelle Handwerksmaße und mittelalterliche englische Ertragsbeschreibungen.",
+        units: [
+          { orig: "square (roofing)", de: "Square (Dachdecker, 100 sq ft)", abk: "sq.", factor: 9.290304 },
+          { orig: "yardland / virgate", de: "Virgate / Yardland (~30 ac)", abk: "virgate", factor: 121405.692672 },
+          { orig: "hide", de: "Hide (Hufe, ~120 ac)", abk: "hide", factor: 485622.770688 }
+        ]
+      },
+      {
+        id: "area_cn1930",
+        name: "Chinesische Flächenmaße (Shìzhì / 市制 1930)",
+        desc: "Normierung von 1930: 1 Mǔ = 6000 Quadrat-Chǐ = 2000/3 m² ≈ 666,67 m² (1/15 Hektar).",
+        units: [
+          { orig: "fāng cùn (方寸)", de: "Quadrat-Cùn", abk: "fāng cùn", factor: 1 / 900 },
+          { orig: "fāng chǐ (方尺)", de: "Quadrat-Chǐ", abk: "fāng chǐ", factor: 1 / 9 },
+          { orig: "háo (毫, Fläche)", de: "Háo (2/3 m²)", abk: "háo (A)", factor: 2 / 3 },
+          { orig: "lí (釐, Fläche)", de: "Lí (20/3 m²)", abk: "lí (A)", factor: 20 / 3 },
+          { orig: "fāng zhàng (方丈)", de: "Quadrat-Zhàng", abk: "fāng zhàng", factor: 100 / 9 },
+          { orig: "fēn (市分, Fläche)", de: "Fēn (200/3 m²)", abk: "fēn (A)", factor: 200 / 3 },
+          { orig: "mǔ (市畝)", de: "Chinesischer Morgen (666 2/3 m²)", abk: "mǔ", factor: 2000 / 3 },
+          { orig: "qǐng (市頃)", de: "Qǐng (100 Mǔ = 6 2/3 ha)", abk: "qǐng", factor: 200000 / 3 }
+        ]
+      },
+      {
+        id: "area_cn1915",
+        name: "Chinesische Flächenmaße (Yingzao 1915)",
+        desc: "Basiert auf der Baumeister-Elle von 0,32 m (1 Mǔ = 614,4 m²).",
+        units: [
+          { orig: "fāng cùn (方寸, 1915)", de: "Quadrat-Cùn (1915)", abk: "f. cùn (15)", factor: 0.001024 },
+          { orig: "fāng chǐ (方尺, 1915)", de: "Quadrat-Chǐ (1915)", abk: "f. chǐ (15)", factor: 0.1024 },
+          { orig: "háo (毫, Fläche 1915)", de: "Háo (1915)", abk: "háo (A 15)", factor: 0.6144 },
+          { orig: "lí (釐, Fläche 1915)", de: "Lí (1915)", abk: "lí (A 15)", factor: 6.144 },
+          { orig: "fāng zhàng (方丈, 1915)", de: "Quadrat-Zhàng (1915)", abk: "f. zhàng (15)", factor: 10.24 },
+          { orig: "fēn (分, Fläche 1915)", de: "Fēn (1915)", abk: "fēn (A 15)", factor: 61.44 },
+          { orig: "mǔ (畝, 1915)", de: "Mǔ (1915, 614,4 m²)", abk: "mǔ (15)", factor: 614.4 },
+          { orig: "qǐng (頃, 1915)", de: "Qǐng (1915, 6,144 ha)", abk: "qǐng (15)", factor: 61440.0 }
+        ]
+      },
+      {
+        id: "area_macau",
+        name: "Macau Flächenmaße",
+        desc: "Traditionelle lusochinesische Flächenmaße von Macau.",
+        units: [
+          { orig: "cek (尺, Macau)", de: "Macau Cek / Côvado", abk: "cek² (MO)", factor: 0.1269 },
+          { orig: "pou (鋪, Macau)", de: "Pou (25 Cek)", abk: "pou (MO)", factor: 3.1725 },
+          { orig: "zoeng (丈, Macau)", de: "Zoeng / Braça", abk: "zoeng² (MO)", factor: 12.69 },
+          { orig: "fan (分, Macau)", de: "Fan / Condorim", abk: "fan (MO)", factor: 76.14 },
+          { orig: "mau (畝, Macau)", de: "Mau / Maz", abk: "mau (MO)", factor: 761.4 }
+        ]
+      }
+    ]
+  },
+
+  volume: {
+    title: "Volumen & Hohlmaße (Volume)",
+    baseUnit: "l",
+    intro: "Größte historische Divergenz zwischen UK und USA: Das Vereinigte Königreich schuf 1824 mit der Imperial Standard Gallon (Volumen von 10 Pfund destilliertem Wasser bei 62 °F = 4,54609 l) ein einheitliches Maß für Flüssigkeiten und Schüttgüter. Die USA behielten die englische Wine Gallon von 1707 (231 cu in = 3,78541 l) für Flüssigkeiten und das Winchester Bushel von 1696 (2150,42 cu in = 35,239 l) für Schüttgüter bei. Im chinesischen Shìzhì-System entspricht das Shēng exakt 1 Liter.",
+    subcategories: [
+      {
+        id: "vol_metric",
+        name: "Metrische Volumenmaße (SI)",
+        desc: "Kubikdezimeter (Liter) und Kubikmeter nach dem metrischen System.",
+        units: [
+          { orig: "millilitre", de: "Milliliter", abk: "ml", factor: 0.001 },
+          { orig: "centilitre", de: "Zentiliter", abk: "cl", factor: 0.01 },
+          { orig: "decilitre", de: "Deziliter", abk: "dl", factor: 0.1 },
+          { orig: "litre", de: "Liter", abk: "l", factor: 1.0 },
+          { orig: "cubic metre", de: "Kubikmeter", abk: "m³", factor: 1000.0 }
+        ]
+      },
+      {
+        id: "vol_cubic",
+        name: "Allgemeine Kubikmaße (Angloamerikanisch)",
+        desc: "Kubierte Längenmaße, seit 1959 international einheitlich definiert.",
+        units: [
+          { orig: "cubic inch", de: "Kubikzoll", abk: "cu.in. (in³)", factor: 0.016387064 },
+          { orig: "cubic foot", de: "Kubikfuß (1728 in³)", abk: "cu.ft. (ft³)", factor: 28.316846592 },
+          { orig: "cubic yard", de: "Kubikyard (27 ft³)", abk: "cu.yd. (yd³)", factor: 764.554857984 }
+        ]
+      },
+      {
+        id: "vol_uk_liquid",
+        name: "Englische Hohlmaße (UK Imperial)",
+        desc: "Weights and Measures Act 1824/1985 (1 Gallone = 4,54609 l). Gilt für Nass- und Schüttgüter.",
+        units: [
+          { orig: "minim (UK)", de: "Minim / Tropfen", abk: "min. (UK)", factor: 0.000059193883880 },
+          { orig: "fluid scruple (UK)", de: "Flüssigskrupel", abk: "fl.sc. (UK)", factor: 0.001183877677603 },
+          { orig: "fluid dram (UK)", de: "Flüssigdrachme", abk: "fl.dr. (UK)", factor: 0.003551633032809 },
+          { orig: "fluid ounce (UK)", de: "Flüssigunze", abk: "fl.oz. (UK)", factor: 0.0284130625 },
+          { orig: "glass (UK)", de: "Glas (1/2 Gill)", abk: "glass (UK)", factor: 0.07103265625 },
+          { orig: "gill / noggin (UK)", de: "Gill (5 fl oz)", abk: "gi. (UK)", factor: 0.1420653125 },
+          { orig: "pint (UK)", de: "Pint (20 fl oz)", abk: "pt. (UK)", factor: 0.56826125 },
+          { orig: "quart (UK)", de: "Quart (40 fl oz)", abk: "qt. (UK)", factor: 1.1365225 },
+          { orig: "gallon (UK)", de: "Imperial Gallone", abk: "gal. (UK)", factor: 4.54609 }
+        ]
+      },
+      {
+        id: "vol_uk_dry_hist",
+        name: "Historische englische Trockenmaße (UK Dry bis 1968)",
+        desc: "Getreide- und Schüttgutmaße auf Basis der Imperial Gallon, 1968 gesetzlich bereinigt.",
+        units: [
+          { orig: "peck (UK)", de: "Peck (2 gal)", abk: "pk. (UK)", factor: 9.09218 },
+          { orig: "kenning (UK)", de: "Kenning (4 gal)", abk: "kenning (UK)", factor: 18.18436 },
+          { orig: "bushel (UK)", de: "Scheffel (8 gal)", abk: "bu. (UK)", factor: 36.36872 },
+          { orig: "sack / bag (UK)", de: "Sack (3 bu)", abk: "sack (UK)", factor: 109.10616 },
+          { orig: "quarter (UK dry)", de: "Quarter (8 bu)", abk: "qr. (UK)", factor: 290.94976 },
+          { orig: "chaldron (UK)", de: "Chaldron (12 sacks)", abk: "chaldron", factor: 1309.27392 },
+          { orig: "load (UK dry)", de: "Last (5 quarters)", abk: "load", factor: 1454.7488 }
+        ]
+      },
+      {
+        id: "vol_us_wet",
+        name: "Amerikanische Flüssigkeitsmaße (US Wet)",
+        desc: "Queen Anne Wine Gallon von 1707 mit 231 Kubikzoll (ca. 3,7854 l).",
+        units: [
+          { orig: "minim (US)", de: "Minim / Tropfen", abk: "min. (US)", factor: 0.000061611519921875 },
+          { orig: "fluid dram (US)", de: "Flüssigdrachme / Schluck", abk: "fl.dr. (US)", factor: 0.0036966911953125 },
+          { orig: "fluid ounce (US)", de: "Flüssigunze", abk: "fl.oz. (US)", factor: 0.0295735295625 },
+          { orig: "gill (US)", de: "Gill (4 fl oz)", abk: "gi. (US)", factor: 0.11829411825 },
+          { orig: "pint (US wet)", de: "Pint (16 fl oz)", abk: "pt. (US wet)", factor: 0.473176473 },
+          { orig: "quart (US wet)", de: "Quart", abk: "qt. (US wet)", factor: 0.946352946 },
+          { orig: "gallon (US wet)", de: "US Flüssig-Gallone", abk: "gal. (US wet)", factor: 3.785411784 }
+        ]
+      },
+      {
+        id: "vol_us_dry",
+        name: "Amerikanische Trockenmaße (US Dry)",
+        desc: "Winchester Bushel von 1696 mit 2150,42 Kubikzoll (ca. 35,24 l) für Getreide und Obst.",
+        units: [
+          { orig: "(dry) pint (US)", de: "Trocken-Pint", abk: "pt. (US dry)", factor: 0.5506104713575 },
+          { orig: "(dry) quart (US)", de: "Trocken-Quart", abk: "qt. (US dry)", factor: 1.101220942715 },
+          { orig: "peck (US dry)", de: "Peck", abk: "pk. (US)", factor: 8.80976754172 },
+          { orig: "bushel (US dry)", de: "US Scheffel (2150,42 in³)", abk: "bu. (US dry)", factor: 35.23907016688 }
+        ]
+      },
+      {
+        id: "vol_wood",
+        name: "Holzmaße (US & UK)",
+        desc: "Forst- und Sägewerksmaße für Brennholz, Schnittholz und Rundholz.",
+        units: [
+          { orig: "board foot (US)", de: "Board Foot (Schnittholz, 1/12 cu ft)", abk: "BF", factor: 2.359737216 },
+          { orig: "hoppus foot (UK)", de: "Hoppus Foot (Rundholz, 4/π cu ft)", abk: "hoppus ft", factor: 36.054 },
+          { orig: "1000 board feet (US)", de: "1000 Board Feet", abk: "MBF", factor: 2359.737216 },
+          { orig: "cord (US)", de: "Klafter (Brennholz, 128 cu ft)", abk: "cd.", factor: 3624.556363776 },
+          { orig: "long cord (US)", de: "Langer Klafter (160 cu ft)", abk: "long cd.", factor: 4530.69545472 },
+          { orig: "hoppus ton (UK)", de: "Hoppus Ton (50 Hoppus ft)", abk: "HT", factor: 1802.7 }
+        ]
+      },
+      {
+        id: "vol_uk_beer",
+        name: "Englische Biergebinde (Brewery ab 1824)",
+        desc: "Traditionelle britische Brauereifässer, basierend auf der Imperial Gallon.",
+        units: [
+          { orig: "gallon (UK Bier)", de: "Biergallone", abk: "gal. (beer)", factor: 4.54609 },
+          { orig: "pin (UK Bier)", de: "Pin (4 1/2 gal)", abk: "pin", factor: 20.457405 },
+          { orig: "firkin (UK Bier)", de: "Fässchen / Firkin (9 gal)", abk: "firkin", factor: 40.91481 },
+          { orig: "kilderkin (UK Bier)", de: "Kilderkin (18 gal)", abk: "kilderkin", factor: 81.82962 },
+          { orig: "barrel (UK Bier)", de: "Bierfass / Barrel (36 gal)", abk: "bl. (beer)", factor: 163.65924 },
+          { orig: "hogshead (UK Bier)", de: "Hogshead (54 gal)", abk: "hhd. (beer)", factor: 245.48886 },
+          { orig: "puncheon (UK Bier)", de: "Puncheon (72 gal)", abk: "puncheon", factor: 327.31848 },
+          { orig: "butt (UK Bier)", de: "Butt (108 gal)", abk: "butt (beer)", factor: 490.97772 },
+          { orig: "tun (UK Bier)", de: "Biertonne / Tun (216 gal)", abk: "tun (beer)", factor: 981.95544 }
+        ]
+      },
+      {
+        id: "vol_wine_casks",
+        name: "Englische und US Weingebinde",
+        desc: "Klassische Weinfässer. Wegen der unterschiedlichen Basiseinheit (UK Imperial vs. US Wet) differenziert.",
+        units: [
+          { orig: "rundlet (US)", de: "Eimer / Rundlet (18 US gal)", abk: "rundlet (US)", factor: 68.13741 },
+          { orig: "rundlet (UK)", de: "Eimer / Rundlet (15 UK gal)", abk: "rundlet (UK)", factor: 68.19135 },
+          { orig: "barrel (US Wein)", de: "Weinfass (31 1/2 US gal)", abk: "bl. (wine US)", factor: 119.24047 },
+          { orig: "barrel (UK Wein)", de: "Weinfass (26 1/4 UK gal)", abk: "bl. (wine UK)", factor: 119.33486 },
+          { orig: "tierce (US)", de: "Ohm / Terz (42 US gal)", abk: "tierce (US)", factor: 158.98729 },
+          { orig: "tierce (UK)", de: "Ohm / Terz (35 UK gal)", abk: "tierce (UK)", factor: 159.11315 },
+          { orig: "hogshead (US Wein)", de: "Oxhoft (63 US gal)", abk: "hhd. (wine US)", factor: 238.48094 },
+          { orig: "hogshead (UK Wein)", de: "Oxhoft (52 1/2 UK gal)", abk: "hhd. (wine UK)", factor: 238.66973 },
+          { orig: "tertian / puncheon (US)", de: "Tertian (84 US gal)", abk: "puncheon (US)", factor: 317.97459 },
+          { orig: "tertian / puncheon (UK)", de: "Tertian (70 UK gal)", abk: "puncheon (UK)", factor: 318.2263 },
+          { orig: "pipe / butt (US Wein)", de: "Pipe / Butt (126 US gal)", abk: "pipe (US)", factor: 476.96188 },
+          { orig: "pipe / butt (UK Wein)", de: "Pipe / Butt (105 UK gal)", abk: "pipe (UK)", factor: 477.33945 },
+          { orig: "tun (US Wein)", de: "Weintonne (252 US gal)", abk: "tun (wine US)", factor: 953.92377 },
+          { orig: "tun (UK Wein)", de: "Weintonne (210 UK gal)", abk: "tun (wine UK)", factor: 954.6789 }
+        ]
+      },
+      {
+        id: "vol_kitchen",
+        name: "Küchenmaße (UK & US)",
+        desc: "Kocheinheiten für Rezepte in angelsächsischen Ländern.",
+        units: [
+          { orig: "saltspoon (UK)", de: "Salzlöffel (1,11 ml)", abk: "ssp. (UK)", factor: 0.0011098 },
+          { orig: "saltspoon (US)", de: "Salzlöffel (1,23 ml)", abk: "ssp. (US)", factor: 0.00123223 },
+          { orig: "teaspoon (UK)", de: "Teelöffel (4,44 ml)", abk: "tsp. (UK)", factor: 0.004439 },
+          { orig: "teaspoon (US)", de: "Teelöffel (4,93 ml)", abk: "tsp. (US)", factor: 0.00492892 },
+          { orig: "dessert spoon (UK)", de: "Dessertlöffel (8,88 ml)", abk: "dsp. (UK)", factor: 0.008879 },
+          { orig: "dessert spoon (US)", de: "Dessertlöffel (9,86 ml)", abk: "dsp. (US)", factor: 0.00985784 },
+          { orig: "tablespoon (US)", de: "Esslöffel (14,79 ml)", abk: "tbsp. (US)", factor: 0.01478676 },
+          { orig: "tablespoon (UK)", de: "Esslöffel (17,76 ml)", abk: "tbsp. (UK)", factor: 0.017758 },
+          { orig: "tea cup (US)", de: "Teetasse (177,44 ml)", abk: "tc. (US)", factor: 0.177441 },
+          { orig: "tea cup (UK)", de: "Teetasse (189,42 ml)", abk: "tc. (UK)", factor: 0.18942 },
+          { orig: "cup (US)", de: "Tasse (236,59 ml)", abk: "c. (US)", factor: 0.236588 },
+          { orig: "cup (UK)", de: "Tasse (284,13 ml)", abk: "c. (UK)", factor: 0.28413 }
+        ]
+      },
+      {
+        id: "vol_wine_bottles",
+        name: "Amerikanische (Schaum-)Weinflaschen (nach 1979)",
+        desc: "Seit 1979 auf 750 ml (statt 1/5 US Gallone) normierte Groß- und Kleinflaschengrößen.",
+        units: [
+          { orig: "split", de: "Split / Piccolo (1/4 Flasche)", abk: "split", factor: 0.1875 },
+          { orig: "tenth", de: "Zehntel (1/2 Flasche)", abk: "tenth", factor: 0.375 },
+          { orig: "fifth / bottle", de: "Standardflasche (Fünftel)", abk: "fifth", factor: 0.75 },
+          { orig: "magnum", de: "Magnum (2 Flaschen)", abk: "magnum", factor: 1.5 },
+          { orig: "jeroboam", de: "Jerobeam (4 Flaschen)", abk: "jeroboam", factor: 3.0 },
+          { orig: "rehoboam", de: "Rehabeam (6 Flaschen)", abk: "rehoboam", factor: 4.5 },
+          { orig: "methuselah", de: "Methusalem (8 Flaschen)", abk: "methuselah", factor: 6.0 },
+          { orig: "shalmanazar", de: "Schalmanasar (12 Flaschen)", abk: "shalmanazar", factor: 9.0 },
+          { orig: "balthazar", de: "Balthasar (16 Flaschen)", abk: "balthazar", factor: 12.0 },
+          { orig: "nebuchadnezzar", de: "Nebukadnezar (20 Flaschen)", abk: "nebuchadnezzar", factor: 15.0 }
+        ]
+      },
+      {
+        id: "vol_special",
+        name: "Sonstige spezielle Raummaße",
+        desc: "Schifffahrts-, Baustoff-, Rohstoff- und Wassermengenmaße.",
+        units: [
+          { orig: "oil barrel (US)", de: "Erdölbarrel (42 US gal)", abk: "bbl", factor: 158.987294928 },
+          { orig: "perch (masonry)", de: "Schachtrute (Mauerwerk, 24 3/4 cu ft)", abk: "perch (vol)", factor: 700.84196 },
+          { orig: "freight ton", de: "Frachttonne (40 cu ft)", abk: "freight ton", factor: 1132.67386 },
+          { orig: "load (timber)", de: "Last (50 cu ft)", abk: "load", factor: 1415.84233 },
+          { orig: "register ton", de: "Registertonne (100 cu ft)", abk: "RT", factor: 2831.68466 },
+          { orig: "acre-inch (US)", de: "Acre-Inch (Wasservolumen)", abk: "ac-in", factor: 102789.7 },
+          { orig: "acre-foot (US)", de: "Acre-Foot (Wasservolumen)", abk: "ac-ft", factor: 1233481.8 }
+        ]
+      },
+      {
+        id: "vol_cn1930",
+        name: "Chinesische Hohlmaße (Shìzhì / 市制 1930)",
+        desc: "Vollständig dezimalisiert: 1 Shēng = genau 1 Liter.",
+        units: [
+          { orig: "cuō (撮)", de: "Cuō (Milliliter)", abk: "cuō", factor: 0.001 },
+          { orig: "sháo (勺)", de: "Sháo (Zentiliter)", abk: "sháo", factor: 0.01 },
+          { orig: "gě (合)", de: "Gě (Deziliter)", abk: "gě", factor: 0.1 },
+          { orig: "shēng (市升)", de: "Shēng (Liter)", abk: "shēng", factor: 1.0 },
+          { orig: "dǒu (市斗)", de: "Dǒu (Dekaliter)", abk: "dǒu", factor: 10.0 },
+          { orig: "dàn (市石)", de: "Dàn (Hektoliter)", abk: "dàn (vol)", factor: 100.0 }
+        ]
+      },
+      {
+        id: "vol_cn1915",
+        name: "Chinesische Hohlmaße (Yingzao 1915)",
+        desc: "Auf der Qing-Dynastie basierend (1 Shēng = ca. 1,0355 Liter).",
+        units: [
+          { orig: "sháo (勺, 1915)", de: "Sháo (1915)", abk: "sháo (15)", factor: 0.010354688 },
+          { orig: "gě (合, 1915)", de: "Gě (1915)", abk: "gě (15)", factor: 0.10354688 },
+          { orig: "shēng (升, 1915)", de: "Shēng (1915)", abk: "shēng (15)", factor: 1.0354688 },
+          { orig: "dǒu (斗, 1915)", de: "Dǒu (1915)", abk: "dǒu (15)", factor: 10.354688 },
+          { orig: "hú (斛, 1915)", de: "Hú (50 Shēng)", abk: "hú (15)", factor: 51.77344 },
+          { orig: "dàn (石, 1915)", de: "Dàn (100 Shēng)", abk: "dàn (15)", factor: 103.54688 }
+        ]
+      },
+      {
+        id: "vol_macau",
+        name: "Macau Hohlmaße",
+        desc: "Klassische Schüttgut- und Hohlmaße von Macau.",
+        units: [
+          { orig: "cyut (撮, Macau)", de: "Cyut (1,031 l)", abk: "cyut", factor: 1.031 },
+          { orig: "gam dak (甘特, Macau)", de: "Gam dak (10,31 l)", abk: "gam dak", factor: 10.31 },
+          { orig: "sek (石, Macau)", de: "Sek (103,1 l)", abk: "sek", factor: 103.1 }
+        ]
+      }
+    ]
+  },
+
+  mass: {
+    title: "Massen & Gewichte (Mass)",
+    baseUnit: "g",
+    intro: "Grundlage des angloamerikanischen Handelssystems ist das Avoirdupois-Pfund zu 7000 Grains, seit 1959 international auf exakt 453,59237 g festgelegt. Das Vereinigte Königreich verwendete das 'lange' System (Long Ton = 2240 lb, Hundredweight = 112 lb, Stone = 14 lb), während die USA das 'kurze' System (Short Ton = 2000 lb, Hundredweight = 100 lb) nutzen. Edelmetalle werden in Feinunzen (Troy Ounce = 480 gr = 31,1035 g) gehandelt. In China wurde das Pfund (Jīn) 1930 auf 500 g normiert und 1959 in der VR China auf 10 Liǎng (statt 16) umgestellt.",
+    subcategories: [
+      {
+        id: "mass_metric",
+        name: "Metrische Masseneinheiten (SI)",
+        desc: "SI-Basiseinheit Kilogramm und deren dezimale Teiler/Vielfache.",
+        units: [
+          { orig: "milligram", de: "Milligramm", abk: "mg", factor: 0.001 },
+          { orig: "gram", de: "Gramm", abk: "g", factor: 1.0 },
+          { orig: "decagram", de: "Dekagramm", abk: "dag", factor: 10.0 },
+          { orig: "hectogram", de: "Hektogramm", abk: "hg", factor: 100.0 },
+          { orig: "kilogram", de: "Kilogramm", abk: "kg", factor: 1000.0 },
+          { orig: "tonne", de: "Metrische Tonne", abk: "t", factor: 1e6 }
+        ]
+      },
+      {
+        id: "mass_av_base",
+        name: "Angloamerikanische Handelsgewichte (Avoirdupois Basis)",
+        desc: "Seit 1959 international einheitlich (1 Pound = 7000 Grains = 453,59237 g).",
+        units: [
+          { orig: "grain", de: "Grain / Gran (Korn)", abk: "gr.", factor: 0.06479891 },
+          { orig: "dram", de: "Drachme (1/16 oz)", abk: "dr. (av)", factor: 1.7718451953125 },
+          { orig: "ounce", de: "Unze (1/16 lb)", abk: "oz. (av)", factor: 28.349523125 },
+          { orig: "pound", de: "Pfund (Avoirdupois)", abk: "lb.", factor: 453.59237 }
+        ]
+      },
+      {
+        id: "mass_us_short",
+        name: "US Handelsgewichte (Short Avoirdupois)",
+        desc: "US-Variante mit dezimalem Ansatz: Zentner zu 100 Pfund, Tonne zu 2000 Pfund.",
+        units: [
+          { orig: "quarter (US)", de: "Viertelzentner (25 lb)", abk: "qr. (US)", factor: 11339.80925 },
+          { orig: "hundredweight (US)", de: "Zentner / Cental (100 lb)", abk: "cwt. (US)", factor: 45359.237 },
+          { orig: "ton (US)", de: "Short Ton (2000 lb)", abk: "tn. (US)", factor: 907184.74 }
+        ]
+      },
+      {
+        id: "mass_uk_long",
+        name: "UK Handelsgewichte (Long Avoirdupois)",
+        desc: "Klassisches britisches System: 1 Stone = 14 Pfund, Zentner = 112 Pfund, Tonne = 2240 Pfund.",
+        units: [
+          { orig: "stone (UK)", de: "Stein (14 lb)", abk: "st.", factor: 6350.29318 },
+          { orig: "quarter (UK)", de: "Viertelzentner (28 lb)", abk: "qr. (UK)", factor: 12700.58636 },
+          { orig: "hundredweight (UK)", de: "Zentner (112 lb)", abk: "cwt. (UK)", factor: 50802.34544 },
+          { orig: "ton (UK)", de: "Long Ton (2240 lb)", abk: "tn. (UK)", factor: 1016046.9088 }
+        ]
+      },
+      {
+        id: "mass_troy",
+        name: "Münzgewichte (Troy System)",
+        desc: "Für Gold, Silber und Edelsteine (1 Troy Pound = 12 Troy Ounces = 5760 Grains).",
+        units: [
+          { orig: "pennyweight", de: "Pfenniggewicht (24 gr)", abk: "dwt.", factor: 1.55517384 },
+          { orig: "ounce (Troy)", de: "Feinunze (480 gr)", abk: "oz. tr.", factor: 31.1034768 },
+          { orig: "pound (Troy)", de: "Troy-Pfund (12 oz tr)", abk: "lb. tr.", factor: 373.2417216 }
+        ]
+      },
+      {
+        id: "mass_apoth",
+        name: "Apothekergewichte (Historisch bis 1858)",
+        desc: "Traditionelles britisches Arzneigewichtssystem vor dem Medical Act 1858.",
+        units: [
+          { orig: "scruple", de: "Skrupel (20 gr)", abk: "℈ (sc.)", factor: 1.2959782 },
+          { orig: "dram (Apoth.)", de: "Apothekerdrachme (3 ℈)", abk: "ʒ (dr.ap.)", factor: 3.8879346 },
+          { orig: "ounce (Apoth.)", de: "Apothekerunze (8 ʒ)", abk: "℥ (oz.ap.)", factor: 31.1034768 },
+          { orig: "pound (Apoth.)", de: "Apothekerpfund (12 ℥)", abk: "℔ (lb.ap.)", factor: 373.2417216 }
+        ]
+      },
+      {
+        id: "mass_tech",
+        name: "Ingenieurtechnik",
+        desc: "Kohärente Masseneinheit im angelsächsischen Fuß-Pfund-Sekunden-System.",
+        units: [
+          { orig: "slug", de: "Slug (32,174 lb)", abk: "slug", factor: 14593.9029372 }
+        ]
+      },
+      {
+        id: "mass_wool",
+        name: "UK Wollgewichte (Historisch)",
+        desc: "Alte englische Spezialgewichte für den Handel mit Schaf- und Baumwolle.",
+        units: [
+          { orig: "clove / nail", de: "Clove (7 lb)", abk: "clove", factor: 3175.14659 },
+          { orig: "stone (Wolle)", de: "Wollstein (14 lb)", abk: "st. (wool)", factor: 6350.29318 },
+          { orig: "tod", de: "Tod (28 lb = 2 stones)", abk: "tod", factor: 12700.58636 },
+          { orig: "hundredweight (Wolle)", de: "Wollzentner (112 lb)", abk: "cwt. (wool)", factor: 50802.34544 },
+          { orig: "wey / weight", de: "Wey (182 lb = 13 stones)", abk: "wey", factor: 82553.81134 },
+          { orig: "sack (Wolle)", de: "Wollsack (364 lb)", abk: "sack (wool)", factor: 165107.62268 },
+          { orig: "last / load (Wolle)", de: "Wolllast (4368 lb)", abk: "last (wool)", factor: 1981291.47216 }
+        ]
+      },
+      {
+        id: "mass_bushel_weights",
+        name: "US Getreidemaße (Bushel-Standardgewichte)",
+        desc: "Masseäquivalente für 1 US-Bushel Getreide bei gesetzlich genormter Messfeuchte.",
+        units: [
+          { orig: "bushel corn (15,5 %)", de: "Bushel Mais (56 lb)", abk: "bu. corn", factor: 25401.17272 },
+          { orig: "bushel rye (14,0 %)", de: "Bushel Roggen (56 lb)", abk: "bu. rye", factor: 25401.17272 },
+          { orig: "bushel wheat (13,5 %)", de: "Bushel Weizen (60 lb)", abk: "bu. wheat", factor: 27215.5422 },
+          { orig: "bushel soybean (13,0 %)", de: "Bushel Sojabohnen (60 lb)", abk: "bu. soy", factor: 27215.5422 }
+        ]
+      },
+      {
+        id: "mass_cn1959",
+        name: "Chinesische Handelsgewichte (VR China 1959)",
+        desc: "Seit 1959 vollständig dezimalisiert (1 Jīn = 10 Liǎng = 500 g).",
+        units: [
+          { orig: "lí (市厘)", de: "Lí (50 mg)", abk: "lí (w)", factor: 0.05 },
+          { orig: "fēn (市分)", de: "Fēn (500 mg)", abk: "fēn (w)", factor: 0.5 },
+          { orig: "qián (市錢)", de: "Qián (5 g)", abk: "qián", factor: 5.0 },
+          { orig: "liǎng (市兩, VR China)", de: "Liǎng (50 g = 1/10 Jīn)", abk: "liǎng (59)", factor: 50.0 },
+          { orig: "jīn (市斤)", de: "Jīn / Catty (500 g)", abk: "jīn", factor: 500.0 },
+          { orig: "dàn (市擔)", de: "Dàn / Picul (50 kg)", abk: "dàn (w)", factor: 50000.0 }
+        ]
+      },
+      {
+        id: "mass_cn1930",
+        name: "Chinesische Handelsgewichte (Republik China / ROC 1930)",
+        desc: "Traditionelle hexadezimale Unterteilung (1 Jīn = 16 Liǎng = 500 g).",
+        units: [
+          { orig: "sī (絲)", de: "Sī (312,5 μg)", abk: "sī (w)", factor: 0.0003125 },
+          { orig: "háo (毫)", de: "Háo (3,125 mg)", abk: "háo (w)", factor: 0.003125 },
+          { orig: "lí (市釐)", de: "Lí (31,25 mg)", abk: "lí (w 30)", factor: 0.03125 },
+          { orig: "fēn (市分)", de: "Fēn (312,5 mg)", abk: "fēn (w 30)", factor: 0.3125 },
+          { orig: "qián (市錢)", de: "Qián (3,125 g)", abk: "qián (30)", factor: 3.125 },
+          { orig: "liǎng (市兩, ROC)", de: "Liǎng (31,25 g = 1/16 Jīn)", abk: "liǎng (30)", factor: 31.25 },
+          { orig: "jīn (市斤, ROC)", de: "Jīn / Catty (500 g)", abk: "jīn (30)", factor: 500.0 },
+          { orig: "dàn (擔, ROC)", de: "Dàn / Picul (50 kg)", abk: "dàn (w 30)", factor: 50000.0 }
+        ]
+      },
+      {
+        id: "mass_cn1915",
+        name: "Chinesische Handelsgewichte (Yingzao 1915)",
+        desc: "Kuping-Schatzamtsstandard der Qing-Dynastie (1 Jīn = 596,816 g).",
+        units: [
+          { orig: "háo (毫, 1915)", de: "Háo (1915)", abk: "háo (w 15)", factor: 0.0037301 },
+          { orig: "lí (釐, 1915)", de: "Lí (1915)", abk: "lí (w 15)", factor: 0.037301 },
+          { orig: "fēn (分, 1915)", de: "Fēn (1915)", abk: "fēn (w 15)", factor: 0.37301 },
+          { orig: "qián (錢, 1915)", de: "Qián (1915)", abk: "qián (15)", factor: 3.7301 },
+          { orig: "liǎng (兩, 1915)", de: "Liǎng (37,301 g)", abk: "liǎng (15)", factor: 37.301 },
+          { orig: "jīn (斤, 1915)", de: "Jīn / Catty (596,816 g)", abk: "jīn (15)", factor: 596.816 }
+        ]
+      },
+      {
+        id: "mass_hk",
+        name: "Hongkong und Macau Handelsgewichte",
+        desc: "Basiert auf der Definition des britischen Pfunds von 1878 (1 Catty = 604,78982 g).",
+        units: [
+          { orig: "lei (厘, HK)", de: "Lei / Cash", abk: "lei", factor: 0.03779936375 },
+          { orig: "fan (分, HK)", de: "Fan / Candareen", abk: "fan (w)", factor: 0.3779936375 },
+          { orig: "cin (錢, HK)", de: "Cin / Mace", abk: "cin", factor: 3.779936375 },
+          { orig: "loeng (兩, HK)", de: "Loeng / Tael (37,80 g)", abk: "loeng", factor: 37.79936375 },
+          { orig: "gan (斤, HK)", de: "Gan / Catty (604,79 g)", abk: "gan", factor: 604.78982 },
+          { orig: "daam (擔, HK)", de: "Daam / Picul (60,48 kg)", abk: "daam", factor: 60478.982 }
+        ]
+      },
+      {
+        id: "mass_hk_troy",
+        name: "Hongkong Troy (Gold/Silber)",
+        desc: "Edelmetallhandel in der Sonderverwaltungszone Hongkong.",
+        units: [
+          { orig: "fen troy (金衡分)", de: "Troy Fan / Candareen", abk: "fen (tr)", factor: 0.37429 },
+          { orig: "qian troy (金衡錢)", de: "Troy Qian / Mace", abk: "qian (tr)", factor: 3.7429 },
+          { orig: "liang troy (金衡兩)", de: "Troy Liang / Tael (37,429 g)", abk: "liang (tr)", factor: 37.429 }
+        ]
+      }
+    ]
+  },
+
+  time: {
+    title: "Zeiteinheiten (Time)",
+    baseUnit: "s",
+    intro: "Metrische Basiseinheit ist die Sekunde. In der angelsächsischen Seefahrt waren Wach- und Glockenintervalle üblich; 'Fortnight' (14 Nächte) ist im UK und Australien bis heute gebräuchlich. Das traditionelle China teilte den Lichttag in 12 Doppelstunden (Shíchén) und 100 Kè sowie die Nacht in fünf Nachtwachen (Gēng).",
+    subcategories: [
+      {
+        id: "time_metric",
+        name: "Standard- und SI-Zeiteinheiten",
+        desc: "Astronomische und SI-Einheiten des internationalen Kalenders.",
+        units: [
+          { orig: "second", de: "Sekunde", abk: "s", factor: 1.0 },
+          { orig: "minute", de: "Minute", abk: "min", factor: 60.0 },
+          { orig: "hour", de: "Stunde", abk: "h", factor: 3600.0 },
+          { orig: "day", de: "Tag", abk: "d", factor: 86400.0 },
+          { orig: "week", de: "Woche", abk: "w", factor: 604800.0 }
+        ]
+      },
+      {
+        id: "time_anglo",
+        name: "Angloamerikanische & Nautische Zeiteinheiten",
+        desc: "Seefahrts- und traditionelle britische Zeitintervalle.",
+        units: [
+          { orig: "ounce (time)", de: "Unze (7,5 s = 1/12 Moment)", abk: "oz (t)", factor: 7.5 },
+          { orig: "moment", de: "Moment (90 s = 1,5 min)", abk: "moment", factor: 90.0 },
+          { orig: "bell", de: "Glocke / Glasen (30 min)", abk: "bell", factor: 1800.0 },
+          { orig: "watch", de: "Wache (4 Stunden)", abk: "watch", factor: 14400.0 },
+          { orig: "sennight", de: "Siebentag (1 Woche)", abk: "sennight", factor: 604800.0 },
+          { orig: "fortnight", de: "Vierzehntägig (2 Wochen)", abk: "fortnight", factor: 1209600.0 }
+        ]
+      },
+      {
+        id: "time_cn",
+        name: "Traditionelle chinesische Zeiteinheiten",
+        desc: "Historische Zeiteinteilung des kaiserlichen China vor der vollständigen Verwestlichung.",
+        units: [
+          { orig: "miǎo (秒)", de: "Miǎo (144 Millisekunden)", abk: "miǎo", factor: 0.144 },
+          { orig: "fēn (分)", de: "Fēn (14,4 Sekunden)", abk: "fēn (t)", factor: 14.4 },
+          { orig: "minor kè (小刻)", de: "Kleine Kè (144 Sekunden)", abk: "kè (min)", factor: 144.0 },
+          { orig: "major kè (大刻)", de: "Große Kè (14 min 24 s = 1/100 d)", abk: "kè (maj)", factor: 864.0 },
+          { orig: "modern kè (刻)", de: "Qing / Moderne Kè (15 min)", abk: "kè", factor: 900.0 },
+          { orig: "diǎn (點)", de: "Diǎn (24 Minuten = 1/6 Gēng)", abk: "diǎn", factor: 1440.0 },
+          { orig: "shíchén (時辰)", de: "Shíchén (Doppelstunde = 2 h)", abk: "shíchén", factor: 7200.0 },
+          { orig: "gēng (更)", de: "Gēng (Nachtwache = 2,4 h)", abk: "gēng", factor: 8640.0 },
+          { orig: "rì / tiān (日/天)", de: "Tag (24 Stunden)", abk: "rì", factor: 86400.0 }
+        ]
+      }
+    ]
+  },
+
+  speed: {
+    title: "Geschwindigkeit (Speed)",
+    baseUnit: "m/s",
+    intro: "Geschwindigkeit als Weg pro Zeit: Im metrischen System m/s bzw. km/h; in angelsächsischen Ländern Meilen pro Stunde (mph) oder Fuß pro Sekunde (fps); in Nautik und Luftfahrt Knoten (internationale Seemeilen pro Stunde).",
+    subcategories: [
+      {
+        id: "spd_all",
+        name: "Geschwindigkeitseinheiten",
+        desc: "Sortiert von klein nach groß (m/s Basis).",
+        units: [
+          { orig: "foot per second", de: "Fuß pro Sekunde", abk: "ft/s (fps)", factor: 0.3048 },
+          { orig: "kilometre per hour", de: "Kilometer pro Stunde", abk: "km/h", factor: 1 / 3.6 },
+          { orig: "mile per hour", de: "Meilen pro Stunde", abk: "mph", factor: 1609.344 / 3600 },
+          { orig: "knot (internat.)", de: "Knoten (NM/h)", abk: "kn", factor: 1852.0 / 3600 },
+          { orig: "knot (UK Admiralty)", de: "Knoten (Admiralty)", abk: "kn (adm)", factor: 1853.184 / 3600 },
+          { orig: "metre per second", de: "Meter pro Sekunde (SI)", abk: "m/s", factor: 1.0 }
+        ]
+      }
+    ]
+  },
+
+  force: {
+    title: "Kraft (Force)",
+    baseUnit: "N",
+    intro: "Im SI-System ist das Newton (N) definiert als 1 kg·m/s². Im angloamerikanischen Ingenieurwesen wird zwischen pound-force (Gewichtskraft von 1 lb bei Normfallbeschleunigung = 4,4482 N) und poundal (Kraft, die 1 lb mit 1 ft/s² beschleunigt = 0,1383 N) differenziert.",
+    subcategories: [
+      {
+        id: "force_all",
+        name: "Krafteinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "dyne", de: "Dyn", abk: "dyn", factor: 1e-5 },
+          { orig: "poundal", de: "Poundal", abk: "pdl", factor: 0.138254954376 },
+          { orig: "newton", de: "Newton (SI)", abk: "N", factor: 1.0 },
+          { orig: "pound-force", de: "Pound-force", abk: "lbf", factor: 4.4482216152605 },
+          { orig: "kilopond", de: "Kilopond / Kilogramm-Kraft", abk: "kp (kgf)", factor: 9.80665 },
+          { orig: "kilonewton", de: "Kilonewton", abk: "kN", factor: 1000.0 }
+        ]
+      }
+    ]
+  },
+
+  pressure: {
+    title: "Druck (Pressure)",
+    baseUnit: "Pa",
+    intro: "SI-Basiseinheit ist das Pascal (1 Pa = 1 N/m²). Im angelsächsischen Raum dominiert das Pound-force per square inch (psi = 6894,76 Pa). In der Meteorologie und Vakuumtechnik sind Bar, Torr und Zoll Quecksilbersäule (inHg) gebräuchlich.",
+    subcategories: [
+      {
+        id: "press_all",
+        name: "Druckeinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "pascal", de: "Pascal (SI)", abk: "Pa", factor: 1.0 },
+          { orig: "poundal per sq foot", de: "Poundal per sq foot", abk: "pdl/ft²", factor: 1.48816394357 },
+          { orig: "pound-force per sq foot", de: "Pound-force per sq foot", abk: "lbF/ft²", factor: 47.880258980336 },
+          { orig: "hectopascal / millibar", de: "Hektopascal / Millibar", abk: "hPa (mbar)", factor: 100.0 },
+          { orig: "torr / mm Hg", de: "Torr (mm Quecksilbersäule)", abk: "Torr", factor: 133.322387415 },
+          { orig: "kilopascal", de: "Kilopascal", abk: "kPa", factor: 1000.0 },
+          { orig: "inch mercury (inHg)", de: "Zoll Quecksilbersäule", abk: "inHg", factor: 3386.38815789473 },
+          { orig: "pound-force per sq inch", de: "PSI (Pound-force/sq inch)", abk: "psi", factor: 6894.75729316837 },
+          { orig: "bar", de: "Bar", abk: "bar", factor: 100000.0 },
+          { orig: "standard atmosphere", de: "Physikalische Atmosphäre", abk: "atm", factor: 101325.0 }
+        ]
+      }
+    ]
+  },
+
+  energy: {
+    title: "Energie, Arbeit & Wärmemenge (Energy)",
+    baseUnit: "J",
+    intro: "SI-Einheit ist das Joule (J = N·m = W·s). Im angloamerikanischen Energie- und Gassektor sind die British Thermal Unit (Btu ≈ 1055 J), das Therm (100.000 Btu) und das Quad (10¹⁵ Btu) dominierend. Kalorien basieren auf der Erwärmung von Wasser.",
+    subcategories: [
+      {
+        id: "energy_all",
+        name: "Energie- und Wärmeeinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "foot-poundal", de: "Foot-poundal", abk: "ft·pdl", factor: 0.04214011 },
+          { orig: "joule", de: "Joule (SI, N·m)", abk: "J", factor: 1.0 },
+          { orig: "foot-pound", de: "Foot-pound-force", abk: "ft·lbf", factor: 1.3558179483314 },
+          { orig: "calorie (15 °C)", de: "Kalorie (15 °C Wasser)", abk: "cal", factor: 4.1855 },
+          { orig: "British thermal unit", de: "British thermal unit (Btu)", abk: "Btu", factor: 1055.05585 },
+          { orig: "kilojoule", de: "Kilojoule", abk: "kJ", factor: 1000.0 },
+          { orig: "watt-hour", de: "Wattstunde", abk: "Wh", factor: 3600.0 },
+          { orig: "kilocalorie", de: "Kilokalorie (Calorie)", abk: "kcal", factor: 4185.5 },
+          { orig: "megajoule", de: "Megajoule", abk: "MJ", factor: 1e6 },
+          { orig: "kilowatt-hour", de: "Kilowattstunde", abk: "kWh", factor: 3.6e6 },
+          { orig: "therm", de: "Therm (100.000 Btu)", abk: "therm", factor: 105505585.0 },
+          { orig: "quad", de: "Quad (10¹⁵ Btu)", abk: "quad", factor: 1.05505585e18 }
+        ]
+      }
+    ]
+  },
+
+  power: {
+    title: "Leistung (Power)",
+    baseUnit: "W",
+    intro: "Leistung als Energieumsatz pro Zeit: Watt (W = J/s). Die britische Horsepower (hp = 550 ft·lbf/s ≈ 745,70 W) ist etwas größer als die metrische Pferdestärke (PS = 75 kp·m/s = 735,50 W).",
+    subcategories: [
+      {
+        id: "power_all",
+        name: "Leistungseinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "watt", de: "Watt (SI)", abk: "W", factor: 1.0 },
+          { orig: "manpower", de: "Mannstärke (1/10 hp)", abk: "manpower", factor: 74.569987158227 },
+          { orig: "metric horsepower", de: "Metrische Pferdestärke", abk: "PS", factor: 735.49875 },
+          { orig: "imperial horsepower", de: "Britische Horsepower", abk: "hp (BHP)", factor: 745.69987158227 },
+          { orig: "kilowatt", de: "Kilowatt", abk: "kW", factor: 1000.0 }
+        ]
+      }
+    ]
+  },
+
+  torque: {
+    title: "Drehmoment (Torque)",
+    baseUnit: "Nm",
+    intro: "Drehmoment als Produkt aus Kraft und Hebelarm: Im metrischen System Newtonmeter (N·m), im angloamerikanischen Raum Foot-Pound (lbf·ft) bzw. Inch-Pound (lbf·in).",
+    subcategories: [
+      {
+        id: "torque_all",
+        name: "Drehmomenteinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "inch-ounce", de: "Inch-ounce", abk: "ozF·in", factor: 0.007061551814226 },
+          { orig: "decinewtonmetre", de: "Dezinewtonmeter", abk: "dN·m", factor: 0.1 },
+          { orig: "inch-pound", de: "Inch-pound", abk: "lbF·in", factor: 0.1129848290276167 },
+          { orig: "newtonmetre", de: "Newtonmeter (SI)", abk: "N·m", factor: 1.0 },
+          { orig: "foot-pound", de: "Foot-pound", abk: "lbF·ft", factor: 1.3558179483314 },
+          { orig: "kilonewtonmetre", de: "Kilonewtonmeter", abk: "kN·m", factor: 1000.0 }
+        ]
+      }
+    ]
+  },
+
+  illuminance: {
+    title: "Beleuchtungsstärke (Illuminance)",
+    baseUnit: "lx",
+    intro: "Im SI-System Lux (lx = lm/m²). In den USA ist Foot-candle (fc = lm/ft² = 10,7639 lx) für Arbeitsschutz- und Lichtplanungsrichtlinien Standard.",
+    subcategories: [
+      {
+        id: "ill_all",
+        name: "Beleuchtungsstärkeeinheiten",
+        desc: "Sortiert von klein nach groß.",
+        units: [
+          { orig: "lux", de: "Lux (Lumen/m²)", abk: "lx", factor: 1.0 },
+          { orig: "foot-candle (US)", de: "Foot-candle (Lumen/ft²)", abk: "fc", factor: 10.76391 }
+        ]
+      }
+    ]
+  }
+};
+
+/* ==========================================================================
+   COMPOUND (HIERARCHICAL) HIERARCHIES (LOGICAL SYSTEMS)
+   Strict segregation – no mixing of incompatible domains.
+   ========================================================================== */
+
+const COMPOUND_SYSTEMS = [
+  // LÄNGE
+  {
+    group: "Längenmaße",
+    name: "Anglo Standard Distanz (mi ➔ yd ➔ ft ➔ in)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Mile", abk: "mi", val: 1609.344 },
+      { name: "Yard", abk: "yd", val: 0.9144 },
+      { name: "Foot", abk: "ft", val: 0.3048 },
+      { name: "Inch", abk: "in", val: 0.0254 }
+    ]
+  },
+  {
+    group: "Längenmaße",
+    name: "Anglo Landvermessung (mi ➔ fur ➔ ch ➔ rd ➔ li)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Statute Mile", abk: "mi", val: 1609.344 },
+      { name: "Furlong", abk: "fur", val: 201.168 },
+      { name: "Chain", abk: "ch", val: 20.1168 },
+      { name: "Rod", abk: "rd", val: 5.0292 },
+      { name: "Link", abk: "li", val: 0.201168 }
+    ]
+  },
+  {
+    group: "Längenmaße",
+    name: "Anglo Nautik (League ➔ Seemeile ➔ Cable ➔ Faden ➔ Fuß)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Nautical League", abk: "nl", val: 5559.552 },
+      { name: "Nautical Mile", abk: "NM", val: 1852.0 },
+      { name: "Cable (UK)", abk: "cbl", val: 182.88 },
+      { name: "Fathom", abk: "fm", val: 1.8288 },
+      { name: "Foot", abk: "ft", val: 0.3048 }
+    ]
+  },
+  {
+    group: "Längenmaße",
+    name: "Chinesisch Shìzhì 1930 (Lǐ ➔ Yǐn ➔ Zhàng ➔ Chǐ ➔ Cùn ➔ Fēn ➔ Lí ➔ Háo)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Lǐ (市里)", abk: "lǐ", val: 500 },
+      { name: "Yǐn (引)", abk: "yǐn", val: 100 / 3 },
+      { name: "Zhàng (市丈)", abk: "zhàng", val: 10 / 3 },
+      { name: "Chǐ (市尺)", abk: "chǐ", val: 1 / 3 },
+      { name: "Cùn (市寸)", abk: "cùn", val: 1 / 30 },
+      { name: "Fēn (市分)", abk: "fēn", val: 1 / 300 },
+      { name: "Lí (市釐)", abk: "lí", val: 1 / 3000 },
+      { name: "Háo (毫)", abk: "háo", val: 1 / 30000 }
+    ]
+  },
+  {
+    group: "Längenmaße",
+    name: "Chinesisch 1915 Yingzao (Lǐ ➔ Yǐn ➔ Zhàng ➔ Bù ➔ Chǐ ➔ Cùn ➔ Fēn)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Lǐ (里)", abk: "lǐ (15)", val: 576.0 },
+      { name: "Yǐn (引)", abk: "yǐn (15)", val: 32.0 },
+      { name: "Zhàng (丈)", abk: "zhàng (15)", val: 3.2 },
+      { name: "Bù (步)", abk: "bù (15)", val: 1.6 },
+      { name: "Chǐ (營造尺)", abk: "chǐ (15)", val: 0.32 },
+      { name: "Cùn (寸)", abk: "cùn (15)", val: 0.032 },
+      { name: "Fēn (分)", abk: "fēn (15)", val: 0.0032 }
+    ]
+  },
+  {
+    group: "Längenmaße",
+    name: "Hongkong Länge (Cek ➔ Cyun ➔ Fan)",
+    catKey: "length",
+    metricUnit: "m",
+    steps: [
+      { name: "Cek (尺)", abk: "cek", val: 0.371475 },
+      { name: "Cyun (寸)", abk: "cyun", val: 0.0371475 },
+      { name: "Fan (分)", abk: "fan", val: 0.00371475 }
+    ]
+  },
+
+  // FLÄCHE
+  {
+    group: "Flächenmaße",
+    name: "Anglo Landvermessung Fläche (Township ➔ Section ➔ 1/4 Sec ➔ Acre ➔ Rood ➔ Sq Rod)",
+    catKey: "area",
+    metricUnit: "m²",
+    steps: [
+      { name: "Township", abk: "twp", val: 93239571.972096 },
+      { name: "Section", abk: "sec", val: 2589988.110336 },
+      { name: "Quarter Section", abk: "1/4 sec", val: 647497.027584 },
+      { name: "Acre", abk: "ac", val: 4046.8564224 },
+      { name: "Rood", abk: "ro", val: 1011.7141056 },
+      { name: "Square Rod", abk: "sq.rd", val: 25.29285264 }
+    ]
+  },
+  {
+    group: "Flächenmaße",
+    name: "Chinesisch Shìzhì 1930 Fläche (Qǐng ➔ Mǔ ➔ Fēn ➔ Lí ➔ Háo)",
+    catKey: "area",
+    metricUnit: "m²",
+    steps: [
+      { name: "Qǐng (市頃)", abk: "qǐng", val: 200000 / 3 },
+      { name: "Mǔ (市畝)", abk: "mǔ", val: 2000 / 3 },
+      { name: "Fēn (市分)", abk: "fēn", val: 200 / 3 },
+      { name: "Lí (市釐)", abk: "lí", val: 20 / 3 },
+      { name: "Háo (毫)", abk: "háo", val: 2 / 3 }
+    ]
+  },
+  {
+    group: "Flächenmaße",
+    name: "Macau Fläche (Mau ➔ Fan ➔ Zoeng ➔ Pou ➔ Cek)",
+    catKey: "area",
+    metricUnit: "m²",
+    steps: [
+      { name: "Mau (畝)", abk: "mau", val: 761.4 },
+      { name: "Fan (分)", abk: "fan", val: 76.14 },
+      { name: "Zoeng (丈)", abk: "zoeng", val: 12.69 },
+      { name: "Pou (鋪)", abk: "pou", val: 3.1725 },
+      { name: "Cek (尺)", abk: "cek", val: 0.1269 }
+    ]
+  },
+
+  // HOHLMASS & VOLUMEN
+  {
+    group: "Volumen & Hohlmaße",
+    name: "UK Imperial Flüssigkeit (Gallon ➔ Quart ➔ Pint ➔ Gill ➔ Fl Oz ➔ Fl Dr ➔ Minim)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Gallon (UK)", abk: "gal (UK)", val: 4.54609 },
+      { name: "Quart (UK)", abk: "qt (UK)", val: 1.1365225 },
+      { name: "Pint (UK)", abk: "pt (UK)", val: 0.56826125 },
+      { name: "Gill (UK)", abk: "gi (UK)", val: 0.1420653125 },
+      { name: "Fluid Ounce (UK)", abk: "fl oz (UK)", val: 0.0284130625 },
+      { name: "Fluid Dram (UK)", abk: "fl dr (UK)", val: 0.003551633032809 },
+      { name: "Minim (UK)", abk: "min (UK)", val: 0.00005919388388 }
+    ]
+  },
+  {
+    group: "Volumen & Hohlmaße",
+    name: "US Customary Flüssigkeit (Gallon ➔ Quart ➔ Pint ➔ Gill ➔ Fl Oz ➔ Fl Dr ➔ Minim)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Gallon (US wet)", abk: "gal (US)", val: 3.785411784 },
+      { name: "Quart (US wet)", abk: "qt (US)", val: 0.946352946 },
+      { name: "Pint (US wet)", abk: "pt (US)", val: 0.473176473 },
+      { name: "Gill (US)", abk: "gi (US)", val: 0.11829411825 },
+      { name: "Fluid Ounce (US)", abk: "fl oz (US)", val: 0.0295735295625 },
+      { name: "Fluid Dram (US)", abk: "fl dr (US)", val: 0.0036966911953125 },
+      { name: "Minim (US)", abk: "min (US)", val: 0.000061611519921875 }
+    ]
+  },
+  {
+    group: "Volumen & Hohlmaße",
+    name: "UK Imperial Trockenmaß (Load ➔ Chaldron ➔ Quarter ➔ Sack ➔ Bushel ➔ Peck ➔ Gal)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Load", abk: "load", val: 1454.7488 },
+      { name: "Chaldron", abk: "chaldron", val: 1309.27392 },
+      { name: "Quarter (dry)", abk: "qr (dry)", val: 290.94976 },
+      { name: "Sack", abk: "sack", val: 109.10616 },
+      { name: "Bushel (UK)", abk: "bu (UK)", val: 36.36872 },
+      { name: "Peck (UK)", abk: "pk (UK)", val: 9.09218 },
+      { name: "Gallon (UK)", abk: "gal (UK)", val: 4.54609 }
+    ]
+  },
+  {
+    group: "Volumen & Hohlmaße",
+    name: "US Customary Trockenmaß (Bushel ➔ Peck ➔ Dry Quart ➔ Dry Pint)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Bushel (US dry)", abk: "bu (US dry)", val: 35.23907016688 },
+      { name: "Peck (US dry)", abk: "pk (US dry)", val: 8.80976754172 },
+      { name: "Dry Quart (US)", abk: "dry qt", val: 1.101220942715 },
+      { name: "Dry Pint (US)", abk: "dry pt", val: 0.5506104713575 }
+    ]
+  },
+  {
+    group: "Volumen & Hohlmaße",
+    name: "UK Biergebinde (Tun ➔ Butt ➔ Puncheon ➔ Hogshead ➔ Barrel ➔ Kilderkin ➔ Firkin ➔ Gal)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Tun (Bier)", abk: "tun (beer)", val: 981.95544 },
+      { name: "Butt (Bier)", abk: "butt (beer)", val: 490.97772 },
+      { name: "Puncheon (Bier)", abk: "puncheon", val: 327.31848 },
+      { name: "Hogshead (Bier)", abk: "hhd (beer)", val: 245.48886 },
+      { name: "Barrel (Bier)", abk: "bl (beer)", val: 163.65924 },
+      { name: "Kilderkin", abk: "kilderkin", val: 81.82962 },
+      { name: "Firkin", abk: "firkin", val: 40.91481 },
+      { name: "Gallon (UK)", abk: "gal (UK)", val: 4.54609 }
+    ]
+  },
+  {
+    group: "Volumen & Hohlmaße",
+    name: "Chinesisch Shìzhì 1930 Hohlmaß (Dàn ➔ Dǒu ➔ Shēng ➔ Gě ➔ Sháo ➔ Cuō)",
+    catKey: "volume",
+    metricUnit: "l",
+    steps: [
+      { name: "Dàn (市石)", abk: "dàn", val: 100.0 },
+      { name: "Dǒu (市斗)", abk: "dǒu", val: 10.0 },
+      { name: "Shēng (市升)", abk: "shēng", val: 1.0 },
+      { name: "Gě (合)", abk: "gě", val: 0.1 },
+      { name: "Sháo (勺)", abk: "sháo", val: 0.01 },
+      { name: "Cuō (撮)", abk: "cuō", val: 0.001 }
+    ]
+  },
+
+  // MASSE & GEWICHT
+  {
+    group: "Massen & Gewichte",
+    name: "UK Long Avoirdupois (Long Ton ➔ Cwt ➔ Qr ➔ Stone ➔ Lb ➔ Oz ➔ Dr)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Long Ton (UK)", abk: "tn (UK)", val: 1016046.9088 },
+      { name: "Hundredweight (UK)", abk: "cwt (UK)", val: 50802.34544 },
+      { name: "Quarter (UK)", abk: "qr (UK)", val: 12700.58636 },
+      { name: "Stone (UK)", abk: "st (UK)", val: 6350.29318 },
+      { name: "Pound", abk: "lb", val: 453.59237 },
+      { name: "Ounce", abk: "oz", val: 28.349523125 },
+      { name: "Dram", abk: "dr", val: 1.7718451953125 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "US Short Avoirdupois (Short Ton ➔ Cwt ➔ Qr ➔ Lb ➔ Oz ➔ Dr)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Short Ton (US)", abk: "tn (US)", val: 907184.74 },
+      { name: "Hundredweight (US)", abk: "cwt (US)", val: 45359.237 },
+      { name: "Quarter (US)", abk: "qr (US)", val: 11339.80925 },
+      { name: "Pound", abk: "lb", val: 453.59237 },
+      { name: "Ounce", abk: "oz", val: 28.349523125 },
+      { name: "Dram", abk: "dr", val: 1.7718451953125 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "Troy-Münzgewichte (Troy Pound ➔ Troy Ounce ➔ Pennyweight ➔ Grain)",
+    catKey: "mass",
+    metricUnit: "g",
+    steps: [
+      { name: "Troy Pound", abk: "lb tr", val: 373.2417216 },
+      { name: "Troy Ounce", abk: "oz tr", val: 31.1034768 },
+      { name: "Pennyweight", abk: "dwt", val: 1.55517384 },
+      { name: "Grain", abk: "gr", val: 0.06479891 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "Apothekergewichte (Apoth. Pound ➔ Apoth. Ounce ➔ Dram ➔ Scruple ➔ Grain)",
+    catKey: "mass",
+    metricUnit: "g",
+    steps: [
+      { name: "Apoth. Pound (℔)", abk: "lb ap", val: 373.2417216 },
+      { name: "Apoth. Ounce (℥)", abk: "oz ap", val: 31.1034768 },
+      { name: "Apoth. Dram (ʒ)", abk: "dr ap", val: 3.8879346 },
+      { name: "Scruple (℈)", abk: "sc", val: 1.2959782 },
+      { name: "Grain", abk: "gr", val: 0.06479891 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "UK Wollgewichte (Last ➔ Sack ➔ Wey ➔ Cwt ➔ Tod ➔ Stone ➔ Clove ➔ Lb)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Last", abk: "last", val: 1981291.47216 },
+      { name: "Sack", abk: "sack", val: 165107.62268 },
+      { name: "Wey", abk: "wey", val: 82553.81134 },
+      { name: "Hundredweight", abk: "cwt", val: 50802.34544 },
+      { name: "Tod", abk: "tod", val: 12700.58636 },
+      { name: "Stone", abk: "st", val: 6350.29318 },
+      { name: "Clove", abk: "clove", val: 3175.14659 },
+      { name: "Pound", abk: "lb", val: 453.59237 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "VR China 1959 Masse (Dàn ➔ Jīn ➔ Liǎng ➔ Qián ➔ Fēn ➔ Lí)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Dàn (市擔)", abk: "dàn (59)", val: 50000.0 },
+      { name: "Jīn (市斤)", abk: "jīn (59)", val: 500.0 },
+      { name: "Liǎng (市兩)", abk: "liǎng (59)", val: 50.0 },
+      { name: "Qián (市錢)", abk: "qián (59)", val: 5.0 },
+      { name: "Fēn (市分)", abk: "fēn (59)", val: 0.5 },
+      { name: "Lí (市厘)", abk: "lí (59)", val: 0.05 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "Chinesisch Trad. / ROC 1930 Masse (Dàn ➔ Jīn ➔ Liǎng ➔ Qián ➔ Fēn ➔ Lí)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Dàn (擔)", abk: "dàn (30)", val: 50000.0 },
+      { name: "Jīn (市斤)", abk: "jīn (30)", val: 500.0 },
+      { name: "Liǎng (市兩)", abk: "liǎng (30)", val: 31.25 },
+      { name: "Qián (市錢)", abk: "qián (30)", val: 3.125 },
+      { name: "Fēn (市分)", abk: "fēn (30)", val: 0.3125 },
+      { name: "Lí (市釐)", abk: "lí (30)", val: 0.03125 }
+    ]
+  },
+  {
+    group: "Massen & Gewichte",
+    name: "Hongkong / Macau Handelsmasse (Daam ➔ Gan ➔ Loeng ➔ Cin ➔ Fan ➔ Lei)",
+    catKey: "mass",
+    metricUnit: "kg",
+    steps: [
+      { name: "Daam (擔)", abk: "daam", val: 60478.982 },
+      { name: "Gan (斤)", abk: "gan", val: 604.78982 },
+      { name: "Loeng (兩)", abk: "loeng", val: 37.79936375 },
+      { name: "Cin (錢)", abk: "cin", val: 3.779936375 },
+      { name: "Fan (分)", abk: "fan", val: 0.3779936375 },
+      { name: "Lei (厘)", abk: "lei", val: 0.03779936375 }
+    ]
+  },
+
+  // ZEIT
+  {
+    group: "Zeiteinheiten",
+    name: "Anglo Historisch & Nautisch (Fortnight ➔ Sennight ➔ Watch ➔ Bell ➔ Moment ➔ Ounce)",
+    catKey: "time",
+    metricUnit: "s",
+    steps: [
+      { name: "Fortnight", abk: "fortnight", val: 1209600.0 },
+      { name: "Sennight", abk: "sennight", val: 604800.0 },
+      { name: "Watch", abk: "watch", val: 14400.0 },
+      { name: "Bell", abk: "bell", val: 1800.0 },
+      { name: "Moment", abk: "moment", val: 90.0 },
+      { name: "Ounce (Zeit)", abk: "oz (t)", val: 7.5 }
+    ]
+  },
+  {
+    group: "Zeiteinheiten",
+    name: "Traditionelle chinesische Zeit (Rì ➔ Gēng ➔ Shíchén ➔ Diǎn ➔ Major Kè ➔ Minor Kè ➔ Fēn ➔ Miǎo)",
+    catKey: "time",
+    metricUnit: "s",
+    steps: [
+      { name: "Rì / Tiān (日/天)", abk: "rì", val: 86400.0 },
+      { name: "Gēng (更)", abk: "gēng", val: 8640.0 },
+      { name: "Shíchén (時辰)", abk: "shíchén", val: 7200.0 },
+      { name: "Diǎn (點)", abk: "diǎn", val: 1440.0 },
+      { name: "Major Kè (大刻)", abk: "kè (maj)", val: 864.0 },
+      { name: "Minor Kè (小刻)", abk: "kè (min)", val: 144.0 },
+      { name: "Fēn (分)", abk: "fēn (t)", val: 14.4 },
+      { name: "Miǎo (秒)", abk: "miǎo", val: 0.144 }
+    ]
+  }
+];
+
+/* ==========================================================================
+   APP ENGINE & EVENT BINDINGS
+   ========================================================================== */
+
+let activeCategoryKey = "length";
+
+function init() {
+  buildCategoryNav();
+  setCategory(activeCategoryKey);
+  initCompoundDropdown();
+  initTemperatureStudio();
+  calcFuel('l100');
+
+  document.getElementById('srcValue').addEventListener('input', updateConversions);
+  document.getElementById('srcUnit').addEventListener('change', updateConversions);
+  document.getElementById('targetUnit').addEventListener('change', updateConversions);
+  document.getElementById('precisionSelect').addEventListener('change', updateConversions);
+}
+
+function buildCategoryNav() {
+  const nav = document.getElementById('catNav');
+  nav.innerHTML = "";
+  Object.keys(METROLOGY_DATA).forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = `cat-btn ${key === activeCategoryKey ? 'active' : ''}`;
+    btn.textContent = METROLOGY_DATA[key].title.split(" ")[0];
+    btn.title = METROLOGY_DATA[key].title;
+    btn.onclick = () => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      setCategory(key);
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function setCategory(catKey) {
+  activeCategoryKey = catKey;
+  const catData = METROLOGY_DATA[catKey];
+
+  document.getElementById('categoryIntroText').innerHTML = `
+    <strong>${catData.title} — Historischer & normativer Kontext:</strong><br>
+    ${catData.intro}
+  `;
+
+  // Populate Dropdowns
+  const srcSelect = document.getElementById('srcUnit');
+  const targetSelect = document.getElementById('targetUnit');
+  srcSelect.innerHTML = "";
+  targetSelect.innerHTML = "";
+
+  catData.subcategories.forEach(sub => {
+    const optgroup1 = document.createElement('optgroup');
+    optgroup1.label = sub.name;
+    const optgroup2 = document.createElement('optgroup');
+    optgroup2.label = sub.name;
+
+    sub.units.forEach(u => {
+      const o1 = document.createElement('option');
+      o1.value = u.orig;
+      o1.textContent = `${u.orig} [${u.de}]`;
+      optgroup1.appendChild(o1);
+
+      const o2 = document.createElement('option');
+      o2.value = u.orig;
+      o2.textContent = `${u.orig} [${u.de}]`;
+      optgroup2.appendChild(o2);
+    });
+
+    srcSelect.appendChild(optgroup1);
+    targetSelect.appendChild(optgroup2);
+  });
+
+  // Sensible default targets
+  if (catData.subcategories.length > 1 && catData.subcategories[1].units.length > 0) {
+    srcSelect.selectedIndex = 0;
+    targetSelect.value = catData.subcategories[1].units[0].orig;
+  }
+
+  updateConversions();
+}
+
+function updateConversions() {
+  const catData = METROLOGY_DATA[activeCategoryKey];
+  const val = parseFloat(document.getElementById('srcValue').value);
+  const srcOrig = document.getElementById('srcUnit').value;
+  const targetOrig = document.getElementById('targetUnit').value;
+  const precision = parseInt(document.getElementById('precisionSelect').value, 10);
+
+  // Flatten units list to find source and target definitions
+  const allUnits = [];
+  catData.subcategories.forEach(sub => sub.units.forEach(u => allUnits.push(u)));
+
+  const srcDef = allUnits.find(u => u.orig === srcOrig);
+  const targetDef = allUnits.find(u => u.orig === targetOrig);
+
+  if (isNaN(val) || !srcDef || !targetDef) {
+    document.getElementById('heroValResult').textContent = "—";
+    return;
+  }
+
+  // Convert input value to base unit, then to target
+  const baseValue = val * srcDef.factor;
+  const targetValue = baseValue / targetDef.factor;
+
+  document.getElementById('heroValResult').textContent = formatSmartNumber(targetValue, precision);
+  document.getElementById('heroUnitResult').textContent = `${targetDef.orig} (${targetDef.de})`;
+
+  renderSubcategoryTables(baseValue, precision);
+}
+
+function renderSubcategoryTables(baseValue, precision) {
+  const catData = METROLOGY_DATA[activeCategoryKey];
+  const container = document.getElementById('subcategoriesDisplay');
+  container.innerHTML = "";
+
+  catData.subcategories.forEach(sub => {
+    const card = document.createElement('div');
+    card.className = "subcat-card";
+
+    let rowsHtml = "";
+    sub.units.forEach(u => {
+      const convertedVal = baseValue / u.factor;
+      rowsHtml += `
+        <tr>
+          <td class="col-orig">${u.orig}</td>
+          <td class="col-de">${u.de}</td>
+          <td class="col-abk">${u.abk}</td>
+          <td class="col-val">${formatSmartNumber(convertedVal, precision)}</td>
+        </tr>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="subcat-header">
+        <div class="subcat-title">${sub.name}</div>
+        <div class="subcat-desc">${sub.desc} — <em>Sortiert von klein nach groß</em></div>
+      </div>
+      <div class="table-wrap">
+        <table class="unit-table">
+          <thead>
+            <tr>
+              <th>Einheit (Original / Pinyin & Zeichen)</th>
+              <th>Deutsch</th>
+              <th>Abk.</th>
+              <th style="text-align:right;">Berechneter Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function formatSmartNumber(num, maxDec) {
+  if (num === 0) return "0";
+  const abs = Math.abs(num);
+  if (abs >= 1e9 || (abs < 1e-5 && abs > 0)) {
+    return num.toExponential(Math.min(maxDec, 6));
+  }
+  return Number(num.toFixed(maxDec)).toLocaleString("de-DE", {
+    maximumFractionDigits: maxDec
+  });
+}
+
+function copyHeroResult() {
+  const val = document.getElementById('heroValResult').textContent;
+  const unit = document.getElementById('heroUnitResult').textContent;
+  navigator.clipboard.writeText(`${val} ${unit}`);
+  alert(`Ergebnis kopiert: ${val} ${unit}`);
+}
+
+/* ==========================================================================
+   VIEW SWITCHER
+   ========================================================================== */
+
+function switchView(mode) {
+  document.getElementById('viewStandard').classList.toggle('hidden', mode !== 'standard');
+  document.getElementById('viewCompound').classList.toggle('hidden', mode !== 'compound');
+  document.getElementById('viewSpecial').classList.toggle('hidden', mode !== 'special');
+
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  if (mode === 'standard') document.getElementById('tabStandard').classList.add('active');
+  if (mode === 'compound') {
+    document.getElementById('tabCompound').classList.add('active');
+    renderCompoundSystem();
+  }
+  if (mode === 'special') document.getElementById('tabSpecial').classList.add('active');
+}
+
+/* ==========================================================================
+   COMPOUND (HIERARCHICAL) ENGINE
+   ========================================================================== */
+
+function initCompoundDropdown() {
+  const sel = document.getElementById('compoundSystemSelect');
+  sel.innerHTML = "";
+
+  const groups = {};
+  COMPOUND_SYSTEMS.forEach((cs, idx) => {
+    if (!groups[cs.group]) groups[cs.group] = [];
+    groups[cs.group].push({ ...cs, index: idx });
+  });
+
+  Object.keys(groups).forEach(grpName => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = grpName;
+    groups[grpName].forEach(cs => {
+      const opt = document.createElement('option');
+      opt.value = cs.index;
+      opt.textContent = cs.name;
+      optgroup.appendChild(opt);
+    });
+    sel.appendChild(optgroup);
+  });
+}
+
+function renderCompoundSystem() {
+  const idx = parseInt(document.getElementById('compoundSystemSelect').value, 10);
+  const sys = COMPOUND_SYSTEMS[idx];
+
+  document.getElementById('metricCompoundUnitLabel').textContent = sys.metricUnit;
+
+  const container = document.getElementById('compoundInputSlots');
+  container.innerHTML = "";
+
+  sys.steps.forEach((step, sIdx) => {
+    const slot = document.createElement('div');
+    slot.className = "compound-input-slot";
+    slot.innerHTML = `
+      <label>${step.abk}</label>
+      <input type="number" step="any" value="0" id="cmp_slot_${sIdx}" oninput="calcCompoundToMetric()">
+      <span style="font-size:0.72rem; color:var(--text-muted); text-align:center;">${step.name}</span>
+    `;
+    container.appendChild(slot);
+  });
+
+  convertMetricToCompound();
+  calcCompoundToMetric();
+}
+
+function convertMetricToCompound() {
+  const idx = parseInt(document.getElementById('compoundSystemSelect').value, 10);
+  const sys = COMPOUND_SYSTEMS[idx];
+  const metricVal = parseFloat(document.getElementById('metricCompoundInput').value);
+
+  if (isNaN(metricVal) || metricVal < 0) {
+    document.getElementById('compoundOutputDisplay').textContent = "Bitte eine positive Zahl eingeben";
+    return;
+  }
+
+  // Normalize into internal base unit (meters, liters, grams, seconds, sq meters)
+  let inBase = metricVal;
+  if (sys.catKey === "mass" && sys.metricUnit === "kg") inBase = metricVal * 1000; // Grams base
+
+  let remainder = inBase;
+  const formattedTokens = [];
+
+  for (let i = 0; i < sys.steps.length; i++) {
+    const step = sys.steps[i];
+    if (i < sys.steps.length - 1) {
+      const whole = Math.floor(remainder / step.val);
+      formattedTokens.push(`${whole} ${step.abk}`);
+      remainder -= whole * step.val;
+    } else {
+      const lastFraction = remainder / step.val;
+      formattedTokens.push(`${formatSmartNumber(lastFraction, 4)} ${step.abk}`);
+    }
+  }
+
+  document.getElementById('compoundOutputDisplay').textContent = formattedTokens.join("  ·  ");
+}
+
+function calcCompoundToMetric() {
+  const idx = parseInt(document.getElementById('compoundSystemSelect').value, 10);
+  const sys = COMPOUND_SYSTEMS[idx];
+
+  let totalInBase = 0;
+  sys.steps.forEach((step, sIdx) => {
+    const val = parseFloat(document.getElementById(`cmp_slot_${sIdx}`).value) || 0;
+    totalInBase += val * step.val;
+  });
+
+  let displayResult = totalInBase;
+  if (sys.catKey === "mass" && sys.metricUnit === "kg") displayResult = totalInBase / 1000;
+
+  document.getElementById('compoundReverseResultDisplay').textContent = 
+    `${formatSmartNumber(displayResult, 6)} ${sys.metricUnit}`;
+}
+
+/* ==========================================================================
+   TEMPERATURE STUDIO (8 SYNCHRONIZED SCALES)
+   ========================================================================== */
+
+const TEMP_SCALES = [
+  { id: "c", name: "Celsius", unit: "°C", toC: v => v, fromC: c => c },
+  { id: "n", name: "Newton", unit: "°N", toC: v => v * 100 / 33, fromC: c => c * 33 / 100 },
+  { id: "ro", name: "Rømer", unit: "°Rø", toC: v => (v - 7.5) * 40 / 21, fromC: c => c * 21 / 40 + 7.5 },
+  { id: "f", name: "Fahrenheit", unit: "°F", toC: v => (v - 32) * 5 / 9, fromC: c => c * 9 / 5 + 32 },
+  { id: "re", name: "Réaumur", unit: "°Ré", toC: v => v * 5 / 4, fromC: c => c * 4 / 5 },
+  { id: "de", name: "Delisle", unit: "°De", toC: v => 100 - v * 2 / 3, fromC: c => (100 - c) * 3 / 2 },
+  { id: "k", name: "Kelvin", unit: "K", toC: v => v - 273.15, fromC: c => c + 273.15 },
+  { id: "ra", name: "Rankine", unit: "°Ra", toC: v => (v - 491.67) * 5 / 9, fromC: c => (c + 273.15) * 9 / 5 }
+];
+
+let tempLock = false;
+
+function initTemperatureStudio() {
+  const grid = document.getElementById('temperatureGrid');
+  grid.innerHTML = "";
+
+  TEMP_SCALES.forEach(scale => {
+    const card = document.createElement('div');
+    card.className = "temp-card";
+    card.innerHTML = `
+      <label>
+        <span>${scale.name}</span>
+        <strong style="color:var(--accent); font-family:var(--font-mono);">${scale.unit}</strong>
+      </label>
+      <input type="number" step="any" id="temp_${scale.id}" oninput="syncTemperatures('${scale.id}')">
+    `;
+    grid.appendChild(card);
+  });
+
+  document.getElementById('temp_c').value = 20;
+  syncTemperatures('c');
+}
+
+function syncTemperatures(activeId) {
+  if (tempLock) return;
+  tempLock = true;
+
+  const raw = parseFloat(document.getElementById(`temp_${activeId}`).value);
+  if (!isNaN(raw)) {
+    const currentScale = TEMP_SCALES.find(s => s.id === activeId);
+    const celsius = currentScale.toC(raw);
+
+    TEMP_SCALES.forEach(scale => {
+      if (scale.id !== activeId) {
+        const converted = scale.fromC(celsius);
+        document.getElementById(`temp_${scale.id}`).value = parseFloat(converted.toFixed(4));
+      }
+    });
+  }
+
+  tempLock = false;
+}
+
+/* ==========================================================================
+   RECIPROCAL FUEL ENGINE
+   ========================================================================== */
+
+let fuelLock = false;
+
+function calcFuel(source) {
+  if (fuelLock) return;
+  fuelLock = true;
+
+  const l100El = document.getElementById('fuel_l100');
+  const mpgUsEl = document.getElementById('fuel_mpgus');
+  const mpgUkEl = document.getElementById('fuel_mpguk');
+  const kmlEl = document.getElementById('fuel_kml');
+  const milEl = document.getElementById('fuel_mil');
+
+  let l100 = parseFloat(l100El.value);
+
+  if (source === 'mpgus') {
+    const v = parseFloat(mpgUsEl.value);
+    l100 = v > 0 ? 235.2145833 / v : 0;
+  } else if (source === 'mpguk') {
+    const v = parseFloat(mpgUkEl.value);
+    l100 = v > 0 ? 282.4809363 / v : 0;
+  } else if (source === 'kml') {
+    const v = parseFloat(kmlEl.value);
+    l100 = v > 0 ? 100 / v : 0;
+  } else if (source === 'mil') {
+    const v = parseFloat(milEl.value);
+    l100 = v > 0 ? (100 / v) / 1.609344 : 0;
+  }
+
+  if (l100 > 0) {
+    if (source !== 'l100') l100El.value = l100.toFixed(2);
+    if (source !== 'mpgus') mpgUsEl.value = (235.2145833 / l100).toFixed(2);
+    if (source !== 'mpguk') mpgUkEl.value = (282.4809363 / l100).toFixed(2);
+    if (source !== 'kml') kmlEl.value = (100 / l100).toFixed(2);
+    if (source !== 'mil') milEl.value = ((100 / l100) / 1.609344).toFixed(2);
+  }
+
+  fuelLock = false;
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
