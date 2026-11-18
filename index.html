@@ -79,6 +79,11 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html {
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       font-family: var(--font-sans);
       background-color: var(--bg-canvas);
@@ -87,7 +92,16 @@
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
       transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    body.mode-desktop {
+      min-width: 0;
+      width: 1240px;
+    }
+    body.mode-mobile .main-content {
+      max-width: 640px;
     }
 
     /* ==========================================================================
@@ -1049,6 +1063,21 @@
           </select>
         </div>
 
+        <div class="ctrl-pill">
+          <span>Ansicht:</span>
+          <select id="paramViewMode">
+            <option value="auto">Automatisch</option>
+            <option value="mobile">Mobil</option>
+            <option value="desktop">Desktop-Site</option>
+          </select>
+        </div>
+        <div class="ctrl-pill">
+          <span>Größe %:</span>
+          <button type="button" class="icon-btn" style="padding:2px 7px;" id="btnScaleDown">−</button>
+          <input type="number" id="paramScaleInput" inputmode="numeric" min="25" max="150" step="5" value="100" style="width:52px;text-align:center;background:transparent;border:none;color:var(--ink-primary);font-weight:700;">
+          <button type="button" class="icon-btn" style="padding:2px 7px;" id="btnScaleUp">+</button>
+          <button type="button" class="icon-btn" style="padding:2px 7px;" id="btnScaleReset">100%</button>
+        </div>
         <button class="icon-btn" id="infoToggleBtn" onclick="toggleInfoDrawer()">Historie & Normen</button>
         <button class="icon-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 Dunkel</button>
       </div>
@@ -4125,6 +4154,35 @@ function boot() {
     if (state.mode === "cascades") updateCascadeFromBase();
     if (state.mode === "dynasties") updateDynastyConverter();
   });
+
+  let viewMode = "auto";
+  let uiScale = 100;
+  function applyViewSettings() {
+    const isDesktop = viewMode === "desktop";
+    document.body.classList.toggle("mode-desktop", isDesktop);
+    document.body.classList.toggle("mode-mobile", viewMode === "mobile");
+    uiScale = Math.max(25, Math.min(150, Math.round(uiScale || 100)));
+    let scale = uiScale / 100;
+    if (isDesktop && window.innerWidth < 1240) scale = (window.innerWidth / 1240) * (uiScale / 100);
+    document.body.style.transformOrigin = "top left";
+    if (Math.abs(scale - 1) < 0.001) {
+      document.body.style.transform = "";
+      document.body.style.width = isDesktop ? "1240px" : "";
+    } else {
+      document.body.style.transform = `scale(${scale.toFixed(4)})`;
+      document.body.style.width = isDesktop ? "1240px" : `${(100 / scale).toFixed(4)}%`;
+    }
+    document.getElementById("paramViewMode").value = viewMode;
+    document.getElementById("paramScaleInput").value = String(uiScale);
+  }
+  const updateScale = (v) => { const n = parseInt(v, 10); if (!Number.isNaN(n)) { uiScale = n; applyViewSettings(); } };
+  document.getElementById("paramViewMode").addEventListener("change", (e) => { viewMode = e.target.value; applyViewSettings(); });
+  document.getElementById("paramScaleInput").addEventListener("change", (e) => updateScale(e.target.value));
+  document.getElementById("btnScaleDown").addEventListener("click", () => updateScale(uiScale - 5));
+  document.getElementById("btnScaleUp").addEventListener("click", () => updateScale(uiScale + 5));
+  document.getElementById("btnScaleReset").addEventListener("click", () => updateScale(100));
+  window.addEventListener("resize", applyViewSettings);
+  applyViewSettings();
 
   selectCategory("length");
 }
